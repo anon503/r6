@@ -27,6 +27,7 @@ jobs:
                 cp -rf f/cpu.patch openwrt/
                 cp -rf f/6.6.92.patch openwrt/
                 cd openwrt
+                mkdir -p files/www/repo
                 git checkout openwrt-24.10
                 git apply r-24.10.patch
                 git apply 6.6.92.patch
