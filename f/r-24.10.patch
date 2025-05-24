@@ -1,4 +1,4 @@
-From 79a7bd406e00946c8205fb01fbc73d654c60f1d4 Mon Sep 17 00:00:00 2001
+From 778be0eeb3880b8004f82b9d4d6ff5328f6f39e2 Mon Sep 17 00:00:00 2001
 From: lol <l@l.com>
 Date: Fri, 23 May 2025 19:52:44 -0400
 Subject: [PATCH 01/17] 04
@@ -24,7 +24,7 @@ index 0000000000..b4e6c4afe2
 2.46.0
 
 
-From 1c244fe9615055020312c76ce86624c9e5212035 Mon Sep 17 00:00:00 2001
+From 503c905e107ec9b8e185be6157914c020dee8460 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Tue, 29 Apr 2025 15:23:03 -0400
 Subject: [PATCH 02/17] misc fixes
@@ -316,7 +316,7 @@ index 0000000000..43831cf04f
 2.46.0
 
 
-From 0cc5aad53b21e372cf513a51a74233ca456429c3 Mon Sep 17 00:00:00 2001
+From 0772ba128e812aa780ff4275f587b51f674244b3 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Wed, 18 Dec 2024 22:57:04 -0500
 Subject: [PATCH 03/17] revert fw_devlink=permissive
@@ -367,7 +367,7 @@ index 85a19027fd..0000000000
 2.46.0
 
 
-From d389a502fb4a5d68beaeeba8900d6632b8843936 Mon Sep 17 00:00:00 2001
+From 171b99d3cf5b2881cf5d6abd257e214f932fbe46 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Fri, 19 Jan 2024 13:45:58 -0500
 Subject: [PATCH 04/17] revert mt7921 bt firmware
@@ -26982,7 +26982,7 @@ HcmV?d00001
 2.46.0
 
 
-From 65f51cf56464893469fc5f6e5ba1d66834b2109c Mon Sep 17 00:00:00 2001
+From bcd8a5f7ebcfc65acccde4db813b119578b563ec Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Wed, 13 Nov 2024 00:33:36 -0500
 Subject: [PATCH 05/17] linux-firmware: add realtek bluetooth
@@ -27011,7 +27011,7 @@ index 0000000000..eb8aa87c7d
 2.46.0
 
 
-From 6602458dcb39a1911550f939e9f5164cf7e2de34 Mon Sep 17 00:00:00 2001
+From 4f02881417f7e88c4d9986c9dd5c8e604872e831 Mon Sep 17 00:00:00 2001
 From: Florian Fainelli <f.fainelli@gmail.com>
 Date: Wed, 27 Jul 2022 15:20:52 -0700
 Subject: [PATCH 06/17] brcmfmac-sdio-firmware: Add Broadcom Bluetooth
@@ -27102,7 +27102,7 @@ index 0000000000..6a8f74f6d6
 2.46.0
 
 
-From 5c08dfa458a13fdd5694be3d602253e97c657d5b Mon Sep 17 00:00:00 2001
+From e4a40f4eca70e9808701785dee87a60698143081 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Mon, 27 Jan 2025 13:23:57 -0500
 Subject: [PATCH 07/17] rockchip: add more rk3588 boards
@@ -27298,7 +27298,7 @@ index b3c941821a..905f305568 100644
 2.46.0
 
 
-From 5a15455a2056127cd26b156ec4a388a5992ad26f Mon Sep 17 00:00:00 2001
+From 881f83f23746b9b256c8a6b447297570dc5f1c5a Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Fri, 9 Feb 2024 14:55:40 -0500
 Subject: [PATCH 08/17] radxa rock pi 4 wifi firmware
@@ -27359,7 +27359,7 @@ index c37edf211c..8f10a4bcc4 100644
 2.46.0
 
 
-From 1fba91746584d718d5f879bc2a2c171bdcde3f34 Mon Sep 17 00:00:00 2001
+From fa2471e2c6c5fffaa2d05d7209dd858014d2f156 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Tue, 6 Aug 2024 15:05:16 -0400
 Subject: [PATCH 09/17] rockchip: add wifi to radxa rock pi 4a
@@ -27453,7 +27453,7 @@ index 1c81005f8e..17cba6b7d0 100644
 2.46.0
 
 
-From 7f5ce5a9c2c8ea323c23d540deb9e380bdaeed8f Mon Sep 17 00:00:00 2001
+From a41a959c2079fbe0f9239d0479d2b043261321c9 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Fri, 9 Aug 2024 17:54:28 -0400
 Subject: [PATCH 10/17] linux-firmware: add NanoPi M4 WIFI firmware
@@ -27516,7 +27516,7 @@ index 8f10a4bcc4..84b7fdcac6 100644
 2.46.0
 
 
-From 229fd8f6f668dae7a4d2657433a220d16f46d525 Mon Sep 17 00:00:00 2001
+From 322e4fca12ed54d6a66bcad27a6cf45455c9c399 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Fri, 9 Aug 2024 13:33:26 -0400
 Subject: [PATCH 11/17] rockchip: add FriendlyElec NanoPi M4/M4-2GB/M4V2
@@ -27621,7 +27621,7 @@ index 17cba6b7d0..cddde43d30 100644
 2.46.0
 
 
-From 8f3205a6cde1e21f677db09d57783abc46a39131 Mon Sep 17 00:00:00 2001
+From 0bb977cc122d91e535ce0bd5d1c67ad78a7724a2 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Sat, 14 Sep 2024 00:02:45 -0400
 Subject: [PATCH 12/17] linux-firmware: add Broadcom AP6255 firmware
@@ -27683,7 +27683,7 @@ index 84b7fdcac6..bfe967b055 100644
 2.46.0
 
 
-From acfb740d3fe7d7d40fa78ee0efa5ceed16732e6f Mon Sep 17 00:00:00 2001
+From 9ae373cdec8463e77979cacb4894027413b0a998 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Sat, 14 Sep 2024 15:33:22 -0400
 Subject: [PATCH 13/17] rockchip: add Hugsun X99 TV Box
@@ -27892,7 +27892,7 @@ index cddde43d30..e1b1bf7c7c 100644
 2.46.0
 
 
-From 434b7e87ddb38730b9a485f1e47822ba6e62ed81 Mon Sep 17 00:00:00 2001
+From c79f0304450ac16b65da542cbd8ebb4f09ef6c96 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Wed, 5 Feb 2025 16:49:10 -0500
 Subject: [PATCH 14/17] rockchip: add RK3588 Hardware Random Number Generator
@@ -28885,10 +28885,10 @@ index 0000000000..8e0bb5f86c
 2.46.0
 
 
-From 81284022bfa17aef836faba8dffca98479ed4bf9 Mon Sep 17 00:00:00 2001
+From 38d9cf575e847f135930916f4b372dd1e52d9a65 Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
-Date: Sat, 3 May 2025 09:14:48 -0400
-Subject: [PATCH 15/17] mac80211: realtek: sync with v6.15
+Date: Sat, 24 May 2025 01:56:44 -0400
+Subject: [PATCH 15/17] mac80211: realtek: sync with v6.16
 
 Signed-off-by: Marty Jones <mj8263788@gmail.com>
 ---
@@ -28947,7 +28947,14 @@ Signed-off-by: Marty Jones <mj8263788@gmail.com>
  ...map-mgmt-frames-to-queue-TX_DESC_QSE.patch |    36 +
  ...call-rtw_sdio_indicate_tx_status-unc.patch |    37 +
  ...t-ignore-hardware-read-error-during-.patch |    32 +
- 55 files changed, 30650 insertions(+), 36 deletions(-)
+ ...X-aggregation-settings-for-RTL8723DS.patch |    44 +
+ ...8-Handle-RTL8723D-S-with-blank-efuse.patch |   198 +
+ ...22bu-VID-PID-for-BUFFALO-WI-U2-866DM.patch |    27 +
+ ...educe-control-message-timeout-to-500.patch |    52 +
+ ...Upload-the-firmware-in-bigger-chunks.patch |   214 +
+ ...he-random-error-beacon-valid-message.patch |    73 +
+ ...he-para-buffer-size-to-avoid-reading.patch |    38 +
+ 62 files changed, 31296 insertions(+), 36 deletions(-)
  rename package/kernel/mac80211/patches/rtl/{046-wifi-rtw88-8821au-Add-additional-devices-to-the-USB_.patch => 046-v6.14-wifi-rtw88-8821au-Add-additional-devices-to-the-USB_.patch} (93%)
  rename package/kernel/mac80211/patches/rtl/{047-wifi-rtw88-8812au-Add-more-device-IDs.patch => 047-v6.14-wifi-rtw88-8812au-Add-more-device-IDs.patch} (95%)
  rename package/kernel/mac80211/patches/rtl/{051-wifi-rtw88-Add-additional-USB-IDs-for-RTL8812BU.patch => 048-v6.14-wifi-rtw88-Add-additional-USB-IDs-for-RTL8812BU.patch} (80%)
@@ -28992,7 +28999,7 @@ Signed-off-by: Marty Jones <mj8263788@gmail.com>
  create mode 100644 package/kernel/mac80211/patches/rtl/089-v6.14-wifi-rtw88-Add-rtw8814ae.c.patch
  create mode 100644 package/kernel/mac80211/patches/rtl/090-v6.14-wifi-rtw88-Add-rtw8814au.c.patch
  create mode 100644 package/kernel/mac80211/patches/rtl/091-v6.14-wifi-rtw88-Enable-the-new-RTL8814AE-RTL8814AU-driver.patch
- create mode 100644 package/kernel/mac80211/patches/rtl/092-v6,16-wifi-rtw88-Add-__nonstring-annotations-for-untermina.patch
+ create mode 100644 package/kernel/mac80211/patches/rtl/092-v6.16-wifi-rtw88-Add-__nonstring-annotations-for-untermina.patch
  create mode 100644 package/kernel/mac80211/patches/rtl/093-v6.6-wifi-rtw88-sdio-Remove-redundant-flush_workqueue-cal.patch
  create mode 100644 package/kernel/mac80211/patches/rtl/094-v6.16-wifi-rtw88-usb-Remove-redundant-flush_workqueue-call.patch
  create mode 100644 package/kernel/mac80211/patches/rtl/095-v6.16-wifi-rtw88-usb-Enable-switching-the-RTL8814AU-to-USB.patch
@@ -29003,6 +29010,13 @@ Signed-off-by: Marty Jones <mj8263788@gmail.com>
  create mode 100644 package/kernel/mac80211/patches/rtl/100-v6.16-wifi-rtw88-sdio-map-mgmt-frames-to-queue-TX_DESC_QSE.patch
  create mode 100644 package/kernel/mac80211/patches/rtl/101-v6.16-wifi-rtw88-sdio-call-rtw_sdio_indicate_tx_status-unc.patch
  create mode 100644 package/kernel/mac80211/patches/rtl/102-v6.16-wifi-rtw88-do-not-ignore-hardware-read-error-during-.patch
+ create mode 100644 package/kernel/mac80211/patches/rtl/103-v6.16-wifi-rtw88-Fix-RX-aggregation-settings-for-RTL8723DS.patch
+ create mode 100644 package/kernel/mac80211/patches/rtl/104-v6.16-wifi-rtw88-Handle-RTL8723D-S-with-blank-efuse.patch
+ create mode 100644 package/kernel/mac80211/patches/rtl/105-v6.16-wifi-rtw88-rtw8822bu-VID-PID-for-BUFFALO-WI-U2-866DM.patch
+ create mode 100644 package/kernel/mac80211/patches/rtl/106-v6.16-wifi-rtw88-usb-Reduce-control-message-timeout-to-500.patch
+ create mode 100644 package/kernel/mac80211/patches/rtl/107-v6.16-wifi-rtw88-usb-Upload-the-firmware-in-bigger-chunks.patch
+ create mode 100644 package/kernel/mac80211/patches/rtl/108-v6.16-wifi-rtw88-Fix-the-random-error-beacon-valid-message.patch
+ create mode 100644 package/kernel/mac80211/patches/rtl/109-v6.16-wifi-rtw88-fix-the-para-buffer-size-to-avoid-reading.patch
 
 diff --git a/package/kernel/mac80211/patches/rtl/046-wifi-rtw88-8821au-Add-additional-devices-to-the-USB_.patch b/package/kernel/mac80211/patches/rtl/046-v6.14-wifi-rtw88-8821au-Add-additional-devices-to-the-USB_.patch
 similarity index 93%
@@ -59204,11 +59218,11 @@ index 0000000000..52922ebab3
 + RTW89=
 + RTW89_CORE=
 + RTW89_PCI=
-diff --git a/package/kernel/mac80211/patches/rtl/092-v6,16-wifi-rtw88-Add-__nonstring-annotations-for-untermina.patch b/package/kernel/mac80211/patches/rtl/092-v6,16-wifi-rtw88-Add-__nonstring-annotations-for-untermina.patch
+diff --git a/package/kernel/mac80211/patches/rtl/092-v6.16-wifi-rtw88-Add-__nonstring-annotations-for-untermina.patch b/package/kernel/mac80211/patches/rtl/092-v6.16-wifi-rtw88-Add-__nonstring-annotations-for-untermina.patch
 new file mode 100644
 index 0000000000..4bb3253d50
 --- /dev/null
-+++ b/package/kernel/mac80211/patches/rtl/092-v6,16-wifi-rtw88-Add-__nonstring-annotations-for-untermina.patch
++++ b/package/kernel/mac80211/patches/rtl/092-v6.16-wifi-rtw88-Add-__nonstring-annotations-for-untermina.patch
 @@ -0,0 +1,34 @@
 +From d58ad77d5cc2a6d04db622a898e54d93fc7002a2 Mon Sep 17 00:00:00 2001
 +From: Kees Cook <kees@kernel.org>
@@ -60140,11 +60154,699 @@ index 0000000000..87d72bf88b
 + 
 + 	rtw_write8(rtwdev, 0x1b10, 0x0);
 + 	rtw_write32_mask(rtwdev, REG_NCTL0, BIT_SUBPAGE, 0x0000000c);
+diff --git a/package/kernel/mac80211/patches/rtl/103-v6.16-wifi-rtw88-Fix-RX-aggregation-settings-for-RTL8723DS.patch b/package/kernel/mac80211/patches/rtl/103-v6.16-wifi-rtw88-Fix-RX-aggregation-settings-for-RTL8723DS.patch
+new file mode 100644
+index 0000000000..901e471508
+--- /dev/null
++++ b/package/kernel/mac80211/patches/rtl/103-v6.16-wifi-rtw88-Fix-RX-aggregation-settings-for-RTL8723DS.patch
+@@ -0,0 +1,44 @@
++From 0ffa1ba81b35ba147c9df6206a61499a156b0128 Mon Sep 17 00:00:00 2001
++From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Date: Fri, 2 May 2025 14:49:01 +0300
++Subject: [PATCH] wifi: rtw88: Fix RX aggregation settings for RTL8723DS
++
++Use the same RX aggregation size and timeout used by the out-of-tree
++RTL8723DS driver. Also set mystery bit 31 of REG_RXDMA_AGG_PG_TH. This
++improves the RX speed from ~44 Mbps to ~67 Mbps.
++
++Signed-off-by: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Acked-by: Ping-Ke Shih <pkshih@realtek.com>
++Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
++Link: https://patch.msgid.link/4c79fdc1-54bc-4986-9931-bb3ceb418b97@gmail.com
++---
++ drivers/net/wireless/realtek/rtw88/sdio.c | 14 ++++++++++++--
++ 1 file changed, 12 insertions(+), 2 deletions(-)
++
++--- a/drivers/net/wireless/realtek/rtw88/sdio.c
+++++ b/drivers/net/wireless/realtek/rtw88/sdio.c
++@@ -677,12 +677,22 @@ static void rtw_sdio_enable_rx_aggregati
++ {
++ 	u8 size, timeout;
++ 
++-	if (rtw_chip_wcpu_11n(rtwdev)) {
+++	switch (rtwdev->chip->id) {
+++	case RTW_CHIP_TYPE_8703B:
+++	case RTW_CHIP_TYPE_8821A:
+++	case RTW_CHIP_TYPE_8812A:
++ 		size = 0x6;
++ 		timeout = 0x6;
++-	} else {
+++		break;
+++	case RTW_CHIP_TYPE_8723D:
+++		size = 0xa;
+++		timeout = 0x3;
+++		rtw_write8_set(rtwdev, REG_RXDMA_AGG_PG_TH + 3, BIT(7));
+++		break;
+++	default:
++ 		size = 0xff;
++ 		timeout = 0x1;
+++		break;
++ 	}
++ 
++ 	/* Make the firmware honor the size limit configured below */
+diff --git a/package/kernel/mac80211/patches/rtl/104-v6.16-wifi-rtw88-Handle-RTL8723D-S-with-blank-efuse.patch b/package/kernel/mac80211/patches/rtl/104-v6.16-wifi-rtw88-Handle-RTL8723D-S-with-blank-efuse.patch
+new file mode 100644
+index 0000000000..d994a6aa69
+--- /dev/null
++++ b/package/kernel/mac80211/patches/rtl/104-v6.16-wifi-rtw88-Handle-RTL8723D-S-with-blank-efuse.patch
+@@ -0,0 +1,198 @@
++From 2c17afde9ff6713f3e080ed1ea1a4bd7480be9aa Mon Sep 17 00:00:00 2001
++From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Date: Fri, 2 May 2025 14:49:34 +0300
++Subject: [PATCH] wifi: rtw88: Handle RTL8723D(S) with blank efuse
++
++Some users have RTL8723DS chips with nearly blank efuse. Currently these
++chips cannot connect when using rtw88, but they do work using the old
++out-of-tree driver.
++
++Use reasonable default values for TX power, antenna configuration, and
++crystal cap if the chip's efuse is missing these things.
++
++RTL8723D can use the same default values as RTL8703B, so simply move
++the code from rtl8703b_read_efuse() to the shared function
++__rtl8723x_read_efuse().
++
++Link: https://github.com/lwfinger/rtw88/issues/157
++Signed-off-by: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Acked-by: Ping-Ke Shih <pkshih@realtek.com>
++Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
++Link: https://patch.msgid.link/5734afe7-0870-40b2-acd4-5657a02d7c56@gmail.com
++---
++ drivers/net/wireless/realtek/rtw88/rtw8703b.c | 60 -------------------
++ drivers/net/wireless/realtek/rtw88/rtw8723x.c | 59 ++++++++++++++++++
++ 2 files changed, 59 insertions(+), 60 deletions(-)
++
++--- a/drivers/net/wireless/realtek/rtw88/rtw8703b.c
+++++ b/drivers/net/wireless/realtek/rtw88/rtw8703b.c
++@@ -519,15 +519,6 @@ static const struct rtw_rqpn rqpn_table_
++ 	 RTW_DMA_MAPPING_EXTRA, RTW_DMA_MAPPING_HIGH},
++ };
++ 
++-/* Default power index table for RTL8703B, used if EFUSE does not
++- * contain valid data. Replaces EFUSE data from offset 0x10 (start of
++- * txpwr_idx_table).
++- */
++-static const u8 rtw8703b_txpwr_idx_table[] = {
++-	0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D,
++-	0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x02
++-};
++-
++ static void try_mac_from_devicetree(struct rtw_dev *rtwdev)
++ {
++ 	struct device_node *node = rtwdev->dev->of_node;
++@@ -544,15 +535,9 @@ static void try_mac_from_devicetree(stru
++ 	}
++ }
++ 
++-#define DBG_EFUSE_FIX(rtwdev, name)					\
++-	rtw_dbg(rtwdev, RTW_DBG_EFUSE, "Fixed invalid EFUSE value: "	\
++-		# name "=0x%x\n", rtwdev->efuse.name)
++-
++ static int rtw8703b_read_efuse(struct rtw_dev *rtwdev, u8 *log_map)
++ {
++ 	struct rtw_efuse *efuse = &rtwdev->efuse;
++-	u8 *pwr = (u8 *)efuse->txpwr_idx_table;
++-	bool valid = false;
++ 	int ret;
++ 
++ 	ret = rtw8723x_read_efuse(rtwdev, log_map);
++@@ -562,51 +547,6 @@ static int rtw8703b_read_efuse(struct rt
++ 	if (!is_valid_ether_addr(efuse->addr))
++ 		try_mac_from_devicetree(rtwdev);
++ 
++-	/* If TX power index table in EFUSE is invalid, fall back to
++-	 * built-in table.
++-	 */
++-	for (int i = 0; i < ARRAY_SIZE(rtw8703b_txpwr_idx_table); i++)
++-		if (pwr[i] != 0xff) {
++-			valid = true;
++-			break;
++-		}
++-	if (!valid) {
++-		for (int i = 0; i < ARRAY_SIZE(rtw8703b_txpwr_idx_table); i++)
++-			pwr[i] = rtw8703b_txpwr_idx_table[i];
++-		rtw_dbg(rtwdev, RTW_DBG_EFUSE,
++-			"Replaced invalid EFUSE TX power index table.");
++-		rtw8723x_debug_txpwr_limit(rtwdev,
++-					   efuse->txpwr_idx_table, 2);
++-	}
++-
++-	/* Override invalid antenna settings. */
++-	if (efuse->bt_setting == 0xff) {
++-		/* shared antenna */
++-		efuse->bt_setting |= BIT(0);
++-		/* RF path A */
++-		efuse->bt_setting &= ~BIT(6);
++-		DBG_EFUSE_FIX(rtwdev, bt_setting);
++-	}
++-
++-	/* Override invalid board options: The coex code incorrectly
++-	 * assumes that if bits 6 & 7 are set the board doesn't
++-	 * support coex. Regd is also derived from rf_board_option and
++-	 * should be 0 if there's no valid data.
++-	 */
++-	if (efuse->rf_board_option == 0xff) {
++-		efuse->regd = 0;
++-		efuse->rf_board_option &= GENMASK(5, 0);
++-		DBG_EFUSE_FIX(rtwdev, rf_board_option);
++-	}
++-
++-	/* Override invalid crystal cap setting, default comes from
++-	 * vendor driver. Chip specific.
++-	 */
++-	if (efuse->crystal_cap == 0xff) {
++-		efuse->crystal_cap = 0x20;
++-		DBG_EFUSE_FIX(rtwdev, crystal_cap);
++-	}
++-
++ 	return 0;
++ }
++ 
++--- a/drivers/net/wireless/realtek/rtw88/rtw8723x.c
+++++ b/drivers/net/wireless/realtek/rtw88/rtw8723x.c
++@@ -69,6 +69,9 @@ static void __rtw8723x_lck(struct rtw_de
++ #define DBG_EFUSE_2BYTE(rtwdev, map, name)			\
++ 	rtw_dbg(rtwdev, RTW_DBG_EFUSE, # name "=0x%02x%02x\n",	\
++ 		(map)->name[0], (map)->name[1])
+++#define DBG_EFUSE_FIX(rtwdev, name)					\
+++	rtw_dbg(rtwdev, RTW_DBG_EFUSE, "Fixed invalid EFUSE value: "	\
+++		# name "=0x%x\n", rtwdev->efuse.name)
++ 
++ static void rtw8723xe_efuse_debug(struct rtw_dev *rtwdev,
++ 				  struct rtw8723x_efuse *map)
++@@ -238,10 +241,21 @@ static void rtw8723xs_efuse_parsing(stru
++ 	ether_addr_copy(efuse->addr, map->s.mac_addr);
++ }
++ 
+++/* Default power index table for RTL8703B/RTL8723D, used if EFUSE does
+++ * not contain valid data. Replaces EFUSE data from offset 0x10 (start
+++ * of txpwr_idx_table).
+++ */
+++static const u8 rtw8723x_txpwr_idx_table[] = {
+++	0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D,
+++	0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x02
+++};
+++
++ static int __rtw8723x_read_efuse(struct rtw_dev *rtwdev, u8 *log_map)
++ {
++ 	struct rtw_efuse *efuse = &rtwdev->efuse;
+++	u8 *pwr = (u8 *)efuse->txpwr_idx_table;
++ 	struct rtw8723x_efuse *map;
+++	bool valid = false;
++ 	int i;
++ 
++ 	map = (struct rtw8723x_efuse *)log_map;
++@@ -279,6 +293,51 @@ static int __rtw8723x_read_efuse(struct
++ 		return -EOPNOTSUPP;
++ 	}
++ 
+++	/* If TX power index table in EFUSE is invalid, fall back to
+++	 * built-in table.
+++	 */
+++	for (i = 0; i < ARRAY_SIZE(rtw8723x_txpwr_idx_table); i++)
+++		if (pwr[i] != 0xff) {
+++			valid = true;
+++			break;
+++		}
+++	if (!valid) {
+++		for (i = 0; i < ARRAY_SIZE(rtw8723x_txpwr_idx_table); i++)
+++			pwr[i] = rtw8723x_txpwr_idx_table[i];
+++		rtw_dbg(rtwdev, RTW_DBG_EFUSE,
+++			"Replaced invalid EFUSE TX power index table.");
+++		rtw8723x_debug_txpwr_limit(rtwdev,
+++					   efuse->txpwr_idx_table, 2);
+++	}
+++
+++	/* Override invalid antenna settings. */
+++	if (efuse->bt_setting == 0xff) {
+++		/* shared antenna */
+++		efuse->bt_setting |= BIT(0);
+++		/* RF path A */
+++		efuse->bt_setting &= ~BIT(6);
+++		DBG_EFUSE_FIX(rtwdev, bt_setting);
+++	}
+++
+++	/* Override invalid board options: The coex code incorrectly
+++	 * assumes that if bits 6 & 7 are set the board doesn't
+++	 * support coex. Regd is also derived from rf_board_option and
+++	 * should be 0 if there's no valid data.
+++	 */
+++	if (efuse->rf_board_option == 0xff) {
+++		efuse->regd = 0;
+++		efuse->rf_board_option &= GENMASK(5, 0);
+++		DBG_EFUSE_FIX(rtwdev, rf_board_option);
+++	}
+++
+++	/* Override invalid crystal cap setting, default comes from
+++	 * vendor driver. Chip specific.
+++	 */
+++	if (efuse->crystal_cap == 0xff) {
+++		efuse->crystal_cap = 0x20;
+++		DBG_EFUSE_FIX(rtwdev, crystal_cap);
+++	}
+++
++ 	return 0;
++ }
++ 
+diff --git a/package/kernel/mac80211/patches/rtl/105-v6.16-wifi-rtw88-rtw8822bu-VID-PID-for-BUFFALO-WI-U2-866DM.patch b/package/kernel/mac80211/patches/rtl/105-v6.16-wifi-rtw88-rtw8822bu-VID-PID-for-BUFFALO-WI-U2-866DM.patch
+new file mode 100644
+index 0000000000..8321ca8c94
+--- /dev/null
++++ b/package/kernel/mac80211/patches/rtl/105-v6.16-wifi-rtw88-rtw8822bu-VID-PID-for-BUFFALO-WI-U2-866DM.patch
+@@ -0,0 +1,27 @@
++From b7f0cc647e52296a3d4dd727b6479dcd6d7e364e Mon Sep 17 00:00:00 2001
++From: Yuuki NAGAO <wf.yn386@gmail.com>
++Date: Sat, 3 May 2025 09:32:27 +0900
++Subject: [PATCH] wifi: rtw88: rtw8822bu VID/PID for BUFFALO WI-U2-866DM
++
++Add VID/PID 0411/03d1 for recently released
++BUFFALO WI-U2-866DM USB WiFi adapter.
++
++Signed-off-by: Yuuki NAGAO <wf.yn386@gmail.com>
++Acked-by: Ping-Ke Shih <pkshih@realtek.com>
++Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
++Link: https://patch.msgid.link/20250503003227.6673-1-wf.yn386@gmail.com
++---
++ drivers/net/wireless/realtek/rtw88/rtw8822bu.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++--- a/drivers/net/wireless/realtek/rtw88/rtw8822bu.c
+++++ b/drivers/net/wireless/realtek/rtw88/rtw8822bu.c
++@@ -77,6 +77,8 @@ static const struct usb_device_id rtw_88
++ 	  .driver_info = (kernel_ulong_t)&(rtw8822b_hw_spec) }, /* Mercusys MA30N */
++ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2001, 0x3322, 0xff, 0xff, 0xff),
++ 	  .driver_info = (kernel_ulong_t)&(rtw8822b_hw_spec) }, /* D-Link DWA-T185 rev. A1 */
+++	{ USB_DEVICE_AND_INTERFACE_INFO(0x0411, 0x03d1, 0xff, 0xff, 0xff),
+++	  .driver_info = (kernel_ulong_t)&(rtw8822b_hw_spec) }, /* BUFFALO WI-U2-866DM */
++ 	{},
++ };
++ MODULE_DEVICE_TABLE(usb, rtw_8822bu_id_table);
+diff --git a/package/kernel/mac80211/patches/rtl/106-v6.16-wifi-rtw88-usb-Reduce-control-message-timeout-to-500.patch b/package/kernel/mac80211/patches/rtl/106-v6.16-wifi-rtw88-usb-Reduce-control-message-timeout-to-500.patch
+new file mode 100644
+index 0000000000..9ed1162ab8
+--- /dev/null
++++ b/package/kernel/mac80211/patches/rtl/106-v6.16-wifi-rtw88-usb-Reduce-control-message-timeout-to-500.patch
+@@ -0,0 +1,52 @@
++From 490340faddea461319652ce36dbc7c1b4482c35e Mon Sep 17 00:00:00 2001
++From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Date: Sat, 10 May 2025 15:21:25 +0300
++Subject: [PATCH] wifi: rtw88: usb: Reduce control message timeout to 500 ms
++
++RTL8811AU stops responding during the firmware download on some systems:
++
++[  809.256440] rtw_8821au 5-2.1:1.0: Firmware version 42.4.0, H2C version 0
++[  812.759142] rtw_8821au 5-2.1:1.0 wlp48s0f4u2u1: renamed from wlan0
++[  837.315388] rtw_8821au 1-4:1.0: write register 0x1ef4 failed with -110
++[  867.524259] rtw_8821au 1-4:1.0: write register 0x1ef8 failed with -110
++[  868.930976] rtw_8821au 5-2.1:1.0 wlp48s0f4u2u1: entered promiscuous mode
++[  897.730952] rtw_8821au 1-4:1.0: write register 0x1efc failed with -110
++
++Each write takes 30 seconds to fail because that's the timeout currently
++used for control messages in rtw_usb_write().
++
++In this scenario the firmware download takes at least 2000 seconds.
++Because this is done from the USB probe function, the long delay makes
++other things in the system hang.
++
++Reduce the timeout to 500 ms. This is the value used by the official USB
++wifi drivers from Realtek.
++
++Of course this only makes things hang for ~30 seconds instead of ~30
++minutes. It doesn't fix the firmware download.
++
++Tested with RTL8822CU, RTL8812BU, RTL8811CU, RTL8814AU, RTL8811AU,
++RTL8812AU, RTL8821AU, RTL8723DU.
++
++Cc: stable@vger.kernel.org
++Fixes: a82dfd33d123 ("wifi: rtw88: Add common USB chip support")
++Link: https://github.com/lwfinger/rtw88/issues/344
++Signed-off-by: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Acked-by: Ping-Ke Shih <pkshih@realtek.com>
++Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
++Link: https://patch.msgid.link/1e35dd26-3f10-40b1-b2b4-f72184a26611@gmail.com
++---
++ drivers/net/wireless/realtek/rtw88/usb.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++--- a/drivers/net/wireless/realtek/rtw88/usb.c
+++++ b/drivers/net/wireless/realtek/rtw88/usb.c
++@@ -139,7 +139,7 @@ static void rtw_usb_write(struct rtw_dev
++ 
++ 	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
++ 			      RTW_USB_CMD_REQ, RTW_USB_CMD_WRITE,
++-			      addr, 0, data, len, 30000);
+++			      addr, 0, data, len, 500);
++ 	if (ret < 0 && ret != -ENODEV && count++ < 4)
++ 		rtw_err(rtwdev, "write register 0x%x failed with %d\n",
++ 			addr, ret);
+diff --git a/package/kernel/mac80211/patches/rtl/107-v6.16-wifi-rtw88-usb-Upload-the-firmware-in-bigger-chunks.patch b/package/kernel/mac80211/patches/rtl/107-v6.16-wifi-rtw88-usb-Upload-the-firmware-in-bigger-chunks.patch
+new file mode 100644
+index 0000000000..8031e46556
+--- /dev/null
++++ b/package/kernel/mac80211/patches/rtl/107-v6.16-wifi-rtw88-usb-Upload-the-firmware-in-bigger-chunks.patch
+@@ -0,0 +1,214 @@
++From 80fe0bc1659c0ccc79d082e426fa376be5df9c04 Mon Sep 17 00:00:00 2001
++From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Date: Sat, 10 May 2025 15:22:24 +0300
++Subject: [PATCH] wifi: rtw88: usb: Upload the firmware in bigger chunks
++
++RTL8811AU stops responding during the firmware download on some systems:
++
++[  809.256440] rtw_8821au 5-2.1:1.0: Firmware version 42.4.0, H2C version 0
++[  812.759142] rtw_8821au 5-2.1:1.0 wlp48s0f4u2u1: renamed from wlan0
++[  837.315388] rtw_8821au 1-4:1.0: write register 0x1ef4 failed with -110
++[  867.524259] rtw_8821au 1-4:1.0: write register 0x1ef8 failed with -110
++[  868.930976] rtw_8821au 5-2.1:1.0 wlp48s0f4u2u1: entered promiscuous mode
++[  897.730952] rtw_8821au 1-4:1.0: write register 0x1efc failed with -110
++
++Maybe it takes too long when writing the firmware 4 bytes at a time.
++
++Write 196 bytes at a time for RTL8821AU, RTL8811AU, and RTL8812AU,
++and 254 bytes at a time for RTL8723DU. These are the sizes used in
++their official drivers. Tested with all these chips.
++
++Cc: stable@vger.kernel.org
++Link: https://github.com/lwfinger/rtw88/issues/344
++Signed-off-by: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Acked-by: Ping-Ke Shih <pkshih@realtek.com>
++Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
++Link: https://patch.msgid.link/43f1daad-3ec0-4a3b-a50c-9cd9eb2c2f52@gmail.com
++---
++ drivers/net/wireless/realtek/rtw88/hci.h  |  8 ++++
++ drivers/net/wireless/realtek/rtw88/mac.c  | 11 +++--
++ drivers/net/wireless/realtek/rtw88/mac.h  |  2 +
++ drivers/net/wireless/realtek/rtw88/pci.c  |  2 +
++ drivers/net/wireless/realtek/rtw88/sdio.c |  2 +
++ drivers/net/wireless/realtek/rtw88/usb.c  | 55 +++++++++++++++++++++++
++ 6 files changed, 76 insertions(+), 4 deletions(-)
++
++--- a/drivers/net/wireless/realtek/rtw88/hci.h
+++++ b/drivers/net/wireless/realtek/rtw88/hci.h
++@@ -19,6 +19,8 @@ struct rtw_hci_ops {
++ 	void (*link_ps)(struct rtw_dev *rtwdev, bool enter);
++ 	void (*interface_cfg)(struct rtw_dev *rtwdev);
++ 	void (*dynamic_rx_agg)(struct rtw_dev *rtwdev, bool enable);
+++	void (*write_firmware_page)(struct rtw_dev *rtwdev, u32 page,
+++				    const u8 *data, u32 size);
++ 
++ 	int (*write_data_rsvd_page)(struct rtw_dev *rtwdev, u8 *buf, u32 size);
++ 	int (*write_data_h2c)(struct rtw_dev *rtwdev, u8 *buf, u32 size);
++@@ -79,6 +81,12 @@ static inline void rtw_hci_dynamic_rx_ag
++ 		rtwdev->hci.ops->dynamic_rx_agg(rtwdev, enable);
++ }
++ 
+++static inline void rtw_hci_write_firmware_page(struct rtw_dev *rtwdev, u32 page,
+++					       const u8 *data, u32 size)
+++{
+++	rtwdev->hci.ops->write_firmware_page(rtwdev, page, data, size);
+++}
+++
++ static inline int
++ rtw_hci_write_data_rsvd_page(struct rtw_dev *rtwdev, u8 *buf, u32 size)
++ {
++--- a/drivers/net/wireless/realtek/rtw88/mac.c
+++++ b/drivers/net/wireless/realtek/rtw88/mac.c
++@@ -856,8 +856,8 @@ fwdl_ready:
++ 	}
++ }
++ 
++-static void
++-write_firmware_page(struct rtw_dev *rtwdev, u32 page, const u8 *data, u32 size)
+++void rtw_write_firmware_page(struct rtw_dev *rtwdev, u32 page,
+++			     const u8 *data, u32 size)
++ {
++ 	u32 val32;
++ 	u32 block_nr;
++@@ -887,6 +887,7 @@ write_firmware_page(struct rtw_dev *rtwd
++ 		rtw_write32(rtwdev, write_addr, le32_to_cpu(remain_data));
++ 	}
++ }
+++EXPORT_SYMBOL(rtw_write_firmware_page);
++ 
++ static int
++ download_firmware_legacy(struct rtw_dev *rtwdev, const u8 *data, u32 size)
++@@ -904,11 +905,13 @@ download_firmware_legacy(struct rtw_dev
++ 	rtw_write8_set(rtwdev, REG_MCUFW_CTRL, BIT_FWDL_CHK_RPT);
++ 
++ 	for (page = 0; page < total_page; page++) {
++-		write_firmware_page(rtwdev, page, data, DLFW_PAGE_SIZE_LEGACY);
+++		rtw_hci_write_firmware_page(rtwdev, page, data,
+++					    DLFW_PAGE_SIZE_LEGACY);
++ 		data += DLFW_PAGE_SIZE_LEGACY;
++ 	}
++ 	if (last_page_size)
++-		write_firmware_page(rtwdev, page, data, last_page_size);
+++		rtw_hci_write_firmware_page(rtwdev, page, data,
+++					    last_page_size);
++ 
++ 	if (!check_hw_ready(rtwdev, REG_MCUFW_CTRL, BIT_FWDL_CHK_RPT, 1)) {
++ 		rtw_err(rtwdev, "failed to check download firmware report\n");
++--- a/drivers/net/wireless/realtek/rtw88/mac.h
+++++ b/drivers/net/wireless/realtek/rtw88/mac.h
++@@ -34,6 +34,8 @@ int rtw_pwr_seq_parser(struct rtw_dev *r
++ 		       const struct rtw_pwr_seq_cmd * const *cmd_seq);
++ int rtw_mac_power_on(struct rtw_dev *rtwdev);
++ void rtw_mac_power_off(struct rtw_dev *rtwdev);
+++void rtw_write_firmware_page(struct rtw_dev *rtwdev, u32 page,
+++			     const u8 *data, u32 size);
++ int rtw_download_firmware(struct rtw_dev *rtwdev, struct rtw_fw_state *fw);
++ int rtw_mac_init(struct rtw_dev *rtwdev);
++ void rtw_mac_flush_queues(struct rtw_dev *rtwdev, u32 queues, bool drop);
++--- a/drivers/net/wireless/realtek/rtw88/pci.c
+++++ b/drivers/net/wireless/realtek/rtw88/pci.c
++@@ -12,6 +12,7 @@
++ #include "fw.h"
++ #include "ps.h"
++ #include "debug.h"
+++#include "mac.h"
++ 
++ static bool rtw_disable_msi;
++ static bool rtw_pci_disable_aspm;
++@@ -1602,6 +1603,7 @@ static const struct rtw_hci_ops rtw_pci_
++ 	.link_ps = rtw_pci_link_ps,
++ 	.interface_cfg = rtw_pci_interface_cfg,
++ 	.dynamic_rx_agg = NULL,
+++	.write_firmware_page = rtw_write_firmware_page,
++ 
++ 	.read8 = rtw_pci_read8,
++ 	.read16 = rtw_pci_read16,
++--- a/drivers/net/wireless/realtek/rtw88/sdio.c
+++++ b/drivers/net/wireless/realtek/rtw88/sdio.c
++@@ -10,6 +10,7 @@
++ #include <linux/mmc/host.h>
++ #include <linux/mmc/sdio_func.h>
++ #include "main.h"
+++#include "mac.h"
++ #include "debug.h"
++ #include "fw.h"
++ #include "ps.h"
++@@ -1164,6 +1165,7 @@ static const struct rtw_hci_ops rtw_sdio
++ 	.link_ps = rtw_sdio_link_ps,
++ 	.interface_cfg = rtw_sdio_interface_cfg,
++ 	.dynamic_rx_agg = NULL,
+++	.write_firmware_page = rtw_write_firmware_page,
++ 
++ 	.read8 = rtw_sdio_read8,
++ 	.read16 = rtw_sdio_read16,
++--- a/drivers/net/wireless/realtek/rtw88/usb.c
+++++ b/drivers/net/wireless/realtek/rtw88/usb.c
++@@ -165,6 +165,60 @@ static void rtw_usb_write32(struct rtw_d
++ 	rtw_usb_write(rtwdev, addr, val, 4);
++ }
++ 
+++static void rtw_usb_write_firmware_page(struct rtw_dev *rtwdev, u32 page,
+++					const u8 *data, u32 size)
+++{
+++	struct rtw_usb *rtwusb = rtw_get_usb_priv(rtwdev);
+++	struct usb_device *udev = rtwusb->udev;
+++	u32 addr = FW_START_ADDR_LEGACY;
+++	u8 *data_dup, *buf;
+++	u32 n, block_size;
+++	int ret;
+++
+++	switch (rtwdev->chip->id) {
+++	case RTW_CHIP_TYPE_8723D:
+++		block_size = 254;
+++		break;
+++	default:
+++		block_size = 196;
+++		break;
+++	}
+++
+++	data_dup = kmemdup(data, size, GFP_KERNEL);
+++	if (!data_dup)
+++		return;
+++
+++	buf = data_dup;
+++
+++	rtw_write32_mask(rtwdev, REG_MCUFW_CTRL, BIT_ROM_PGE, page);
+++
+++	while (size > 0) {
+++		if (size >= block_size)
+++			n = block_size;
+++		else if (size >= 8)
+++			n = 8;
+++		else
+++			n = 1;
+++
+++		ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+++				      RTW_USB_CMD_REQ, RTW_USB_CMD_WRITE,
+++				      addr, 0, buf, n, 500);
+++		if (ret != n) {
+++			if (ret != -ENODEV)
+++				rtw_err(rtwdev,
+++					"write 0x%x len %d failed: %d\n",
+++					addr, n, ret);
+++			break;
+++		}
+++
+++		addr += n;
+++		buf += n;
+++		size -= n;
+++	}
+++
+++	kfree(data_dup);
+++}
+++
++ static int dma_mapping_to_ep(enum rtw_dma_mapping dma_mapping)
++ {
++ 	switch (dma_mapping) {
++@@ -855,6 +909,7 @@ static const struct rtw_hci_ops rtw_usb_
++ 	.link_ps = rtw_usb_link_ps,
++ 	.interface_cfg = rtw_usb_interface_cfg,
++ 	.dynamic_rx_agg = rtw_usb_dynamic_rx_agg,
+++	.write_firmware_page = rtw_usb_write_firmware_page,
++ 
++ 	.write8  = rtw_usb_write8,
++ 	.write16 = rtw_usb_write16,
+diff --git a/package/kernel/mac80211/patches/rtl/108-v6.16-wifi-rtw88-Fix-the-random-error-beacon-valid-message.patch b/package/kernel/mac80211/patches/rtl/108-v6.16-wifi-rtw88-Fix-the-random-error-beacon-valid-message.patch
+new file mode 100644
+index 0000000000..8008b58ff4
+--- /dev/null
++++ b/package/kernel/mac80211/patches/rtl/108-v6.16-wifi-rtw88-Fix-the-random-error-beacon-valid-message.patch
+@@ -0,0 +1,73 @@
++From f24d0d8c3cd7e4237f802c4d2f3bd4ac04572948 Mon Sep 17 00:00:00 2001
++From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Date: Sat, 10 May 2025 16:12:34 +0300
++Subject: [PATCH] wifi: rtw88: Fix the random "error beacon valid" messages for
++ USB
++
++All the USB devices have a problem in AP mode: uploading the updated
++beacon to the chip's reserved page can randomly fail:
++
++[34996.474304] rtw88_8723du 1-2:1.2: error beacon valid
++[34996.474788] rtw88_8723du 1-2:1.2: failed to download drv rsvd page
++[34999.956369] rtw88_8723du 1-2:1.2: error beacon valid
++[34999.956846] rtw88_8723du 1-2:1.2: failed to download drv rsvd page
++[34999.956855] rtw88_8723du 1-2:1.2: failed to download beacon
++[35017.978296] rtw88_8723du 1-2:1.2: error beacon valid
++[35017.978805] rtw88_8723du 1-2:1.2: failed to download drv rsvd page
++[35017.978823] rtw88_8723du 1-2:1.2: failed to download beacon
++[35023.200395] rtw88_8723du 1-2:1.2: error beacon valid
++[35023.200869] rtw88_8723du 1-2:1.2: failed to download drv rsvd page
++[35023.200875] rtw88_8723du 1-2:1.2: failed to download beacon
++[35478.680547] rtw88_8723du 1-2:1.2: error beacon valid
++[35478.681023] rtw88_8723du 1-2:1.2: failed to download drv rsvd page
++
++Disable some beacon-related hardware functions before uploading the
++beacon and enable them again after.
++
++Tested with RTL8723DU, RTL8812BU, RTL8822CE.
++
++Signed-off-by: Bitterblue Smith <rtl8821cerfe2@gmail.com>
++Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
++Link: https://patch.msgid.link/c248c40a-d432-47ed-90e0-d81ee6c32464@gmail.com
++---
++ drivers/net/wireless/realtek/rtw88/fw.c | 8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
++
++--- a/drivers/net/wireless/realtek/rtw88/fw.c
+++++ b/drivers/net/wireless/realtek/rtw88/fw.c
++@@ -1467,7 +1467,7 @@ void rtw_add_rsvd_page_sta(struct rtw_de
++ int rtw_fw_write_data_rsvd_page(struct rtw_dev *rtwdev, u16 pg_addr,
++ 				u8 *buf, u32 size)
++ {
++-	u8 bckp[2];
+++	u8 bckp[3];
++ 	u8 val;
++ 	u16 rsvd_pg_head;
++ 	u32 bcn_valid_addr;
++@@ -1479,6 +1479,8 @@ int rtw_fw_write_data_rsvd_page(struct r
++ 	if (!size)
++ 		return -EINVAL;
++ 
+++	bckp[2] = rtw_read8(rtwdev, REG_BCN_CTRL);
+++
++ 	if (rtw_chip_wcpu_11n(rtwdev)) {
++ 		rtw_write32_set(rtwdev, REG_DWBCN0_CTRL, BIT_BCN_VALID);
++ 	} else {
++@@ -1492,6 +1494,9 @@ int rtw_fw_write_data_rsvd_page(struct r
++ 	val |= BIT_ENSWBCN >> 8;
++ 	rtw_write8(rtwdev, REG_CR + 1, val);
++ 
+++	rtw_write8(rtwdev, REG_BCN_CTRL,
+++		   (bckp[2] & ~BIT_EN_BCN_FUNCTION) | BIT_DIS_TSF_UDT);
+++
++ 	if (rtw_hci_type(rtwdev) == RTW_HCI_TYPE_PCIE) {
++ 		val = rtw_read8(rtwdev, REG_FWHW_TXQ_CTRL + 2);
++ 		bckp[1] = val;
++@@ -1522,6 +1527,7 @@ restore:
++ 	rsvd_pg_head = rtwdev->fifo.rsvd_boundary;
++ 	rtw_write16(rtwdev, REG_FIFOPAGE_CTRL_2,
++ 		    rsvd_pg_head | BIT_BCN_VALID_V1);
+++	rtw_write8(rtwdev, REG_BCN_CTRL, bckp[2]);
++ 	if (rtw_hci_type(rtwdev) == RTW_HCI_TYPE_PCIE)
++ 		rtw_write8(rtwdev, REG_FWHW_TXQ_CTRL + 2, bckp[1]);
++ 	rtw_write8(rtwdev, REG_CR + 1, bckp[0]);
+diff --git a/package/kernel/mac80211/patches/rtl/109-v6.16-wifi-rtw88-fix-the-para-buffer-size-to-avoid-reading.patch b/package/kernel/mac80211/patches/rtl/109-v6.16-wifi-rtw88-fix-the-para-buffer-size-to-avoid-reading.patch
+new file mode 100644
+index 0000000000..11b73128db
+--- /dev/null
++++ b/package/kernel/mac80211/patches/rtl/109-v6.16-wifi-rtw88-fix-the-para-buffer-size-to-avoid-reading.patch
+@@ -0,0 +1,38 @@
++From 4c2c372de2e108319236203cce6de44d70ae15cd Mon Sep 17 00:00:00 2001
++From: Alexey Kodanev <aleksei.kodanev@bell-sw.com>
++Date: Tue, 13 May 2025 12:13:04 +0000
++Subject: [PATCH] wifi: rtw88: fix the 'para' buffer size to avoid reading out
++ of bounds
++
++Set the size to 6 instead of 2, since 'para' array is passed to
++'rtw_fw_bt_wifi_control(rtwdev, para[0], &para[1])', which reads
++5 bytes:
++
++void rtw_fw_bt_wifi_control(struct rtw_dev *rtwdev, u8 op_code, u8 *data)
++{
++    ...
++    SET_BT_WIFI_CONTROL_DATA1(h2c_pkt, *data);
++    SET_BT_WIFI_CONTROL_DATA2(h2c_pkt, *(data + 1));
++    ...
++    SET_BT_WIFI_CONTROL_DATA5(h2c_pkt, *(data + 4));
++
++Detected using the static analysis tool - Svace.
++Fixes: 4136214f7c46 ("rtw88: add BT co-existence support")
++Signed-off-by: Alexey Kodanev <aleksei.kodanev@bell-sw.com>
++Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
++Link: https://patch.msgid.link/20250513121304.124141-1-aleksei.kodanev@bell-sw.com
++---
++ drivers/net/wireless/realtek/rtw88/coex.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++--- a/drivers/net/wireless/realtek/rtw88/coex.c
+++++ b/drivers/net/wireless/realtek/rtw88/coex.c
++@@ -309,7 +309,7 @@ static void rtw_coex_tdma_timer_base(str
++ {
++ 	struct rtw_coex *coex = &rtwdev->coex;
++ 	struct rtw_coex_stat *coex_stat = &coex->stat;
++-	u8 para[2] = {0};
+++	u8 para[6] = {};
++ 	u8 times;
++ 	u16 tbtt_interval = coex_stat->wl_beacon_interval;
++ 
 -- 
 2.46.0
 
 
-From ab63d62a5efd16b05c9cbcd0a8a17b02f5bfd4e8 Mon Sep 17 00:00:00 2001
+From 6fd521caaa58baa56b9e2e48d77611b83af147de Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Thu, 27 Feb 2025 11:40:36 -0500
 Subject: [PATCH 16/17] linux-firmare: realtek: add rtl8814au
@@ -60186,7 +60888,7 @@ index 749d93be3e..953307fd9b 100644
 2.46.0
 
 
-From 0389fbc6438845e0041b916f2cdcce335e599158 Mon Sep 17 00:00:00 2001
+From 0d76d69e19751c073e112d61b01432ac68f3584b Mon Sep 17 00:00:00 2001
 From: Marty Jones <mj8263788@gmail.com>
 Date: Thu, 27 Feb 2025 14:49:55 -0500
 Subject: [PATCH 17/17] mac80211: realtek: add rtl8814au
