@@ -1,0 +1,47 @@
+From 5c83301107d238e6c3ea829ae09d87396da0b4db Mon Sep 17 00:00:00 2001
+From: Antonio Flores <antflores627@gmail.com>
+Date: Mon, 21 Apr 2025 10:14:54 -0400
+Subject: [PATCH] rockchip: fix the SD card detection on NanoPi R6C/R6S
+
+This patch backport a fix for the SD card detection on NanoPi R6c/R6S
+from upstream commit https://github.com/torvalds/linux/commit/95147bb42bc163866fc103c957820345fefa96cd
+
+Signed-off-by: Antonio Flores <antflores627@gmail.com>
+Link: https://github.com/openwrt/openwrt/pull/18553
+Signed-off-by: Robert Marko <robimarko@gmail.com>
+---
+ ...ip-Fix-the-SD-card-detection-on-Nano.patch | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 target/linux/rockchip/patches-6.6/402-v6.13-arm64-dts-rockchip-Fix-the-SD-card-detection-on-Nano.patch
+
+diff --git a/target/linux/rockchip/patches-6.6/402-v6.13-arm64-dts-rockchip-Fix-the-SD-card-detection-on-Nano.patch b/target/linux/rockchip/patches-6.6/402-v6.13-arm64-dts-rockchip-Fix-the-SD-card-detection-on-Nano.patch
+new file mode 100644
+index 00000000000000..a24c4ab8e2bb52
+--- /dev/null
++++ b/target/linux/rockchip/patches-6.6/402-v6.13-arm64-dts-rockchip-Fix-the-SD-card-detection-on-Nano.patch
+@@ -0,0 +1,25 @@
++From 95147bb42bc163866fc103c957820345fefa96cd Mon Sep 17 00:00:00 2001
++From: Anton Kirilov <anton.kirilov@arm.com>
++Date: Thu, 19 Dec 2024 11:31:45 +0000
++Subject: [PATCH] arm64: dts: rockchip: Fix the SD card detection on NanoPi
++ R6C/R6S
++
++Fix the SD card detection on FriendlyElec NanoPi R6C/R6S boards.
++
++Signed-off-by: Anton Kirilov <anton.kirilov@arm.com>
++Link: https://lore.kernel.org/r/20241219113145.483205-1-anton.kirilov@arm.com
++Signed-off-by: Heiko Stuebner <heiko@sntech.de>
++---
++ arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi | 1 +
++ 1 file changed, 1 insertion(+)
++
++--- a/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi
+++++ b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi
++@@ -410,6 +410,7 @@
++ &sdmmc {
++ 	bus-width = <4>;
++ 	cap-sd-highspeed;
+++	cd-gpios = <&gpio0 RK_PA4 GPIO_ACTIVE_LOW>;
++ 	disable-wp;
++ 	max-frequency = <150000000>;
++ 	no-mmc;
