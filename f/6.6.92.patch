@@ -1,0 +1,1206 @@
+From 8539219a38993eb59de44aa1422ac1238a26a7d3 Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Fri, 23 May 2025 19:41:56 -0400
+Subject: [PATCH 17/17] kernel: Linux 6.6.92
+
+Signed-off-by: Marty Jones <mj8263788@gmail.com>
+---
+ include/kernel-6.6                            |  4 +-
+ ...x_cpus_namespace_collision_shadowing.patch |  2 +-
+ ...ansmit-from-devices-with-no-checksum.patch |  2 +-
+ ...-software-USO-if-IPv6-extension-head.patch |  2 +-
+ ...-create-a-dummy-net_device-allocator.patch |  2 +-
+ ...iatek-split-tx-and-rx-fields-in-mtk_.patch | 54 ++++++------
+ ...iatek-use-QDMA-instead-of-ADMAv2-on-.patch |  8 +-
+ ..._eth_soc-handle-dma-buffer-size-soc-.patch | 38 ++++----
+ ..._eth_soc-ppe-add-support-for-multipl.patch | 22 ++---
+ ...ediatek-Allow-gaps-in-MAC-allocation.patch |  2 +-
+ ..._eth_soc-implement-.-get-set-_pausep.patch |  4 +-
+ .../generic/hack-6.6/204-module_strip.patch   |  8 +-
+ .../721-net-add-packet-mangeling.patch        |  4 +-
+ .../781-usb-net-rndis-support-asr.patch       | 10 +--
+ .../pending-6.6/655-increase_skb_pad.patch    |  2 +-
+ ...680-net-add-TCP-fraglist-GRO-support.patch |  2 +-
+ ...-fix-UDPv6-GSO-segmentation-with-NAT.patch | 88 -------------------
+ ...net-mtk_eth_soc-enable-threaded-NAPI.patch |  2 +-
+ ..._eth_soc-reset-all-TX-queues-on-DMA-.patch | 49 -----------
+ ...-mediatek-enlarge-DMA-reserve-buffer.patch |  2 +-
+ ..._eth_soc-add-paths-and-SerDes-modes-.patch | 18 ++--
+ ...th_soc-reduce-rx-ring-size-for-older.patch | 16 ++--
+ ..._eth_soc-do-not-enable-page-pool-sta.patch |  4 +-
+ target/linux/rockchip/armv8/config-6.6        |  4 +-
+ 24 files changed, 106 insertions(+), 243 deletions(-)
+ delete mode 100644 target/linux/generic/pending-6.6/691-net-ipv6-fix-UDPv6-GSO-segmentation-with-NAT.patch
+ delete mode 100644 target/linux/generic/pending-6.6/730-net-ethernet-mtk_eth_soc-reset-all-TX-queues-on-DMA-.patch
+
+diff --git a/include/kernel-6.6 b/include/kernel-6.6
+index f3ca0941dd..96534d711c 100644
+--- a/include/kernel-6.6
++++ b/include/kernel-6.6
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.6 = .89
+-LINUX_KERNEL_HASH-6.6.89 = c21af7d36068e4ac0704c242eac8459212e6bf4a5d09df941b9b4d17dc1eba00
++LINUX_VERSION-6.6 = .92
++LINUX_KERNEL_HASH-6.6.92 = 1d82a82642d281c31d86f7301bc55e12a8a9f9c04532e249ef8ae6fe7dc237ec
+diff --git a/target/linux/generic/backport-6.6/0080-v6.9-smp-Avoid-setup_max_cpus_namespace_collision_shadowing.patch b/target/linux/generic/backport-6.6/0080-v6.9-smp-Avoid-setup_max_cpus_namespace_collision_shadowing.patch
+index 54ebaa1a80..c8cef08935 100644
+--- a/target/linux/generic/backport-6.6/0080-v6.9-smp-Avoid-setup_max_cpus_namespace_collision_shadowing.patch
++++ b/target/linux/generic/backport-6.6/0080-v6.9-smp-Avoid-setup_max_cpus_namespace_collision_shadowing.patch
+@@ -21,7 +21,7 @@ Cc: linux-kernel@vger.kernel.org
+ 
+ --- a/include/linux/cpu.h
+ +++ b/include/linux/cpu.h
+-@@ -109,7 +109,7 @@ void notify_cpu_starting(unsigned int cp
++@@ -111,7 +111,7 @@ void notify_cpu_starting(unsigned int cp
+  extern void cpu_maps_update_begin(void);
+  extern void cpu_maps_update_done(void);
+  int bringup_hibernate_cpu(unsigned int sleep_cpu);
+diff --git a/target/linux/generic/backport-6.6/611-01-v6.11-udp-Allow-GSO-transmit-from-devices-with-no-checksum.patch b/target/linux/generic/backport-6.6/611-01-v6.11-udp-Allow-GSO-transmit-from-devices-with-no-checksum.patch
+index d1673ec7d4..4cafd27fdc 100644
+--- a/target/linux/generic/backport-6.6/611-01-v6.11-udp-Allow-GSO-transmit-from-devices-with-no-checksum.patch
++++ b/target/linux/generic/backport-6.6/611-01-v6.11-udp-Allow-GSO-transmit-from-devices-with-no-checksum.patch
+@@ -65,7 +65,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		}
+ --- a/net/ipv4/udp_offload.c
+ +++ b/net/ipv4/udp_offload.c
+-@@ -384,6 +384,14 @@ struct sk_buff *__udp_gso_segment(struct
++@@ -443,6 +443,14 @@ struct sk_buff *__udp_gso_segment(struct
+  	else
+  		uh->check = gso_make_checksum(seg, ~check) ? : CSUM_MANGLED_0;
+  
+diff --git a/target/linux/generic/backport-6.6/611-03-v6.11-udp-Fall-back-to-software-USO-if-IPv6-extension-head.patch b/target/linux/generic/backport-6.6/611-03-v6.11-udp-Fall-back-to-software-USO-if-IPv6-extension-head.patch
+index e8eceb880c..d3df5162ac 100644
+--- a/target/linux/generic/backport-6.6/611-03-v6.11-udp-Fall-back-to-software-USO-if-IPv6-extension-head.patch
++++ b/target/linux/generic/backport-6.6/611-03-v6.11-udp-Fall-back-to-software-USO-if-IPv6-extension-head.patch
+@@ -71,7 +71,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+ 
+ --- a/net/ipv4/udp_offload.c
+ +++ b/net/ipv4/udp_offload.c
+-@@ -283,6 +283,12 @@ struct sk_buff *__udp_gso_segment(struct
++@@ -342,6 +342,12 @@ struct sk_buff *__udp_gso_segment(struct
+  		     !(skb_shinfo(gso_skb)->gso_type & SKB_GSO_FRAGLIST)))
+  		return ERR_PTR(-EINVAL);
+  
+diff --git a/target/linux/generic/backport-6.6/700-v6.10-net-create-a-dummy-net_device-allocator.patch b/target/linux/generic/backport-6.6/700-v6.10-net-create-a-dummy-net_device-allocator.patch
+index dd0640e2ee..9e0bd14acf 100644
+--- a/target/linux/generic/backport-6.6/700-v6.10-net-create-a-dummy-net_device-allocator.patch
++++ b/target/linux/generic/backport-6.6/700-v6.10-net-create-a-dummy-net_device-allocator.patch
+@@ -37,7 +37,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+ 
+ --- a/include/linux/netdevice.h
+ +++ b/include/linux/netdevice.h
+-@@ -4569,6 +4569,9 @@ static inline void netif_addr_unlock_bh(
++@@ -4580,6 +4580,9 @@ static inline void netif_addr_unlock_bh(
+  
+  void ether_setup(struct net_device *dev);
+  
+diff --git a/target/linux/generic/backport-6.6/751-01-v6.8-net-ethernet-mediatek-split-tx-and-rx-fields-in-mtk_.patch b/target/linux/generic/backport-6.6/751-01-v6.8-net-ethernet-mediatek-split-tx-and-rx-fields-in-mtk_.patch
+index 8fb4b6fef5..7d232563ca 100644
+--- a/target/linux/generic/backport-6.6/751-01-v6.8-net-ethernet-mediatek-split-tx-and-rx-fields-in-mtk_.patch
++++ b/target/linux/generic/backport-6.6/751-01-v6.8-net-ethernet-mediatek-split-tx-and-rx-fields-in-mtk_.patch
+@@ -167,7 +167,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  			skb->ip_summed = CHECKSUM_UNNECESSARY;
+  		else
+  			skb_checksum_none_assert(skb);
+-@@ -2276,7 +2276,7 @@ static int mtk_poll_tx_qdma(struct mtk_e
++@@ -2280,7 +2280,7 @@ static int mtk_poll_tx_qdma(struct mtk_e
+  			break;
+  
+  		tx_buf = mtk_desc_to_tx_buf(ring, desc,
+@@ -176,7 +176,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		if (!tx_buf->data)
+  			break;
+  
+-@@ -2327,7 +2327,7 @@ static int mtk_poll_tx_pdma(struct mtk_e
++@@ -2331,7 +2331,7 @@ static int mtk_poll_tx_pdma(struct mtk_e
+  		}
+  		mtk_tx_unmap(eth, tx_buf, &bq, true);
+  
+@@ -185,7 +185,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		ring->last_free = desc;
+  		atomic_inc(&ring->free_count);
+  
+-@@ -2417,7 +2417,7 @@ static int mtk_napi_rx(struct napi_struc
++@@ -2421,7 +2421,7 @@ static int mtk_napi_rx(struct napi_struc
+  	do {
+  		int rx_done;
+  
+@@ -194,7 +194,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  			reg_map->pdma.irq_status);
+  		rx_done = mtk_poll_rx(napi, budget - rx_done_total, eth);
+  		rx_done_total += rx_done;
+-@@ -2433,10 +2433,10 @@ static int mtk_napi_rx(struct napi_struc
++@@ -2437,10 +2437,10 @@ static int mtk_napi_rx(struct napi_struc
+  			return budget;
+  
+  	} while (mtk_r32(eth, reg_map->pdma.irq_status) &
+@@ -207,7 +207,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  
+  	return rx_done_total;
+  }
+-@@ -2445,7 +2445,7 @@ static int mtk_tx_alloc(struct mtk_eth *
++@@ -2449,7 +2449,7 @@ static int mtk_tx_alloc(struct mtk_eth *
+  {
+  	const struct mtk_soc_data *soc = eth->soc;
+  	struct mtk_tx_ring *ring = &eth->tx_ring;
+@@ -216,7 +216,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	struct mtk_tx_dma_v2 *txd;
+  	int ring_size;
+  	u32 ofs, val;
+-@@ -2568,14 +2568,14 @@ static void mtk_tx_clean(struct mtk_eth
++@@ -2572,14 +2572,14 @@ static void mtk_tx_clean(struct mtk_eth
+  	}
+  	if (!MTK_HAS_CAPS(soc->caps, MTK_SRAM) && ring->dma) {
+  		dma_free_coherent(eth->dma_dev,
+@@ -233,7 +233,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  				  ring->dma_pdma, ring->phys_pdma);
+  		ring->dma_pdma = NULL;
+  	}
+-@@ -2630,15 +2630,15 @@ static int mtk_rx_alloc(struct mtk_eth *
++@@ -2634,15 +2634,15 @@ static int mtk_rx_alloc(struct mtk_eth *
+  	if (!MTK_HAS_CAPS(eth->soc->caps, MTK_SRAM) ||
+  	    rx_flag != MTK_RX_FLAGS_NORMAL) {
+  		ring->dma = dma_alloc_coherent(eth->dma_dev,
+@@ -253,7 +253,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	}
+  
+  	if (!ring->dma)
+-@@ -2649,7 +2649,7 @@ static int mtk_rx_alloc(struct mtk_eth *
++@@ -2653,7 +2653,7 @@ static int mtk_rx_alloc(struct mtk_eth *
+  		dma_addr_t dma_addr;
+  		void *data;
+  
+@@ -262,7 +262,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		if (ring->page_pool) {
+  			data = mtk_page_pool_get_buff(ring->page_pool,
+  						      &dma_addr, GFP_KERNEL);
+-@@ -2740,7 +2740,7 @@ static void mtk_rx_clean(struct mtk_eth
++@@ -2744,7 +2744,7 @@ static void mtk_rx_clean(struct mtk_eth
+  			if (!ring->data[i])
+  				continue;
+  
+@@ -271,7 +271,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  			if (!rxd->rxd1)
+  				continue;
+  
+-@@ -2757,7 +2757,7 @@ static void mtk_rx_clean(struct mtk_eth
++@@ -2761,7 +2761,7 @@ static void mtk_rx_clean(struct mtk_eth
+  
+  	if (!in_sram && ring->dma) {
+  		dma_free_coherent(eth->dma_dev,
+@@ -280,8 +280,8 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  				  ring->dma, ring->phys);
+  		ring->dma = NULL;
+  	}
+-@@ -3120,7 +3120,7 @@ static void mtk_dma_free(struct mtk_eth
+- 			netdev_reset_queue(eth->netdev[i]);
++@@ -3132,7 +3132,7 @@ static void mtk_dma_free(struct mtk_eth
++ 
+  	if (!MTK_HAS_CAPS(soc->caps, MTK_SRAM) && eth->scratch_ring) {
+  		dma_free_coherent(eth->dma_dev,
+ -				  MTK_QDMA_RING_SIZE * soc->txrx.txd_size,
+@@ -289,7 +289,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  				  eth->scratch_ring, eth->phy_scratch_ring);
+  		eth->scratch_ring = NULL;
+  		eth->phy_scratch_ring = 0;
+-@@ -3170,7 +3170,7 @@ static irqreturn_t mtk_handle_irq_rx(int
++@@ -3182,7 +3182,7 @@ static irqreturn_t mtk_handle_irq_rx(int
+  
+  	eth->rx_events++;
+  	if (likely(napi_schedule_prep(&eth->rx_napi))) {
+@@ -298,7 +298,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		__napi_schedule(&eth->rx_napi);
+  	}
+  
+-@@ -3196,9 +3196,9 @@ static irqreturn_t mtk_handle_irq(int ir
++@@ -3208,9 +3208,9 @@ static irqreturn_t mtk_handle_irq(int ir
+  	const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+  
+  	if (mtk_r32(eth, reg_map->pdma.irq_mask) &
+@@ -310,7 +310,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  			mtk_handle_irq_rx(irq, _eth);
+  	}
+  	if (mtk_r32(eth, reg_map->tx_irq_mask) & MTK_TX_DONE_INT) {
+-@@ -3216,10 +3216,10 @@ static void mtk_poll_controller(struct n
++@@ -3228,10 +3228,10 @@ static void mtk_poll_controller(struct n
+  	struct mtk_eth *eth = mac->hw;
+  
+  	mtk_tx_irq_disable(eth, MTK_TX_DONE_INT);
+@@ -323,7 +323,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  }
+  #endif
+  
+-@@ -3383,7 +3383,7 @@ static int mtk_open(struct net_device *d
++@@ -3395,7 +3395,7 @@ static int mtk_open(struct net_device *d
+  		napi_enable(&eth->tx_napi);
+  		napi_enable(&eth->rx_napi);
+  		mtk_tx_irq_enable(eth, MTK_TX_DONE_INT);
+@@ -332,7 +332,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		refcount_set(&eth->dma_refcnt, 1);
+  	}
+  	else
+-@@ -3467,7 +3467,7 @@ static int mtk_stop(struct net_device *d
++@@ -3479,7 +3479,7 @@ static int mtk_stop(struct net_device *d
+  	mtk_gdm_config(eth, MTK_GDMA_DROP_ALL);
+  
+  	mtk_tx_irq_disable(eth, MTK_TX_DONE_INT);
+@@ -341,7 +341,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	napi_disable(&eth->tx_napi);
+  	napi_disable(&eth->rx_napi);
+  
+-@@ -3943,9 +3943,9 @@ static int mtk_hw_init(struct mtk_eth *e
++@@ -3955,9 +3955,9 @@ static int mtk_hw_init(struct mtk_eth *e
+  
+  	/* FE int grouping */
+  	mtk_w32(eth, MTK_TX_DONE_INT, reg_map->pdma.int_grp);
+@@ -353,7 +353,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	mtk_w32(eth, 0x21021000, MTK_FE_INT_GRP);
+  
+  	if (mtk_is_netsys_v3_or_greater(eth)) {
+-@@ -5053,11 +5053,15 @@ static const struct mtk_soc_data mt2701_
++@@ -5065,11 +5065,15 @@ static const struct mtk_soc_data mt2701_
+  	.required_clks = MT7623_CLKS_BITMAP,
+  	.required_pctl = true,
+  	.version = 1,
+@@ -374,7 +374,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5073,11 +5077,15 @@ static const struct mtk_soc_data mt7621_
++@@ -5085,11 +5089,15 @@ static const struct mtk_soc_data mt7621_
+  	.offload_version = 1,
+  	.hash_offset = 2,
+  	.foe_entry_size = MTK_FOE_ENTRY_V1_SIZE,
+@@ -395,7 +395,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5095,11 +5103,15 @@ static const struct mtk_soc_data mt7622_
++@@ -5107,11 +5115,15 @@ static const struct mtk_soc_data mt7622_
+  	.hash_offset = 2,
+  	.has_accounting = true,
+  	.foe_entry_size = MTK_FOE_ENTRY_V1_SIZE,
+@@ -416,7 +416,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5116,11 +5128,15 @@ static const struct mtk_soc_data mt7623_
++@@ -5128,11 +5140,15 @@ static const struct mtk_soc_data mt7623_
+  	.hash_offset = 2,
+  	.foe_entry_size = MTK_FOE_ENTRY_V1_SIZE,
+  	.disable_pll_modes = true,
+@@ -437,7 +437,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5135,11 +5151,15 @@ static const struct mtk_soc_data mt7629_
++@@ -5147,11 +5163,15 @@ static const struct mtk_soc_data mt7629_
+  	.required_pctl = false,
+  	.has_accounting = true,
+  	.version = 1,
+@@ -458,7 +458,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5157,11 +5177,15 @@ static const struct mtk_soc_data mt7981_
++@@ -5169,11 +5189,15 @@ static const struct mtk_soc_data mt7981_
+  	.hash_offset = 4,
+  	.has_accounting = true,
+  	.foe_entry_size = MTK_FOE_ENTRY_V2_SIZE,
+@@ -479,7 +479,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN_V2,
+  		.dma_len_offset = 8,
+  	},
+-@@ -5179,11 +5203,15 @@ static const struct mtk_soc_data mt7986_
++@@ -5191,11 +5215,15 @@ static const struct mtk_soc_data mt7986_
+  	.hash_offset = 4,
+  	.has_accounting = true,
+  	.foe_entry_size = MTK_FOE_ENTRY_V2_SIZE,
+@@ -500,7 +500,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN_V2,
+  		.dma_len_offset = 8,
+  	},
+-@@ -5201,11 +5229,15 @@ static const struct mtk_soc_data mt7988_
++@@ -5213,11 +5241,15 @@ static const struct mtk_soc_data mt7988_
+  	.hash_offset = 4,
+  	.has_accounting = true,
+  	.foe_entry_size = MTK_FOE_ENTRY_V3_SIZE,
+@@ -521,7 +521,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN_V2,
+  		.dma_len_offset = 8,
+  	},
+-@@ -5218,11 +5250,15 @@ static const struct mtk_soc_data rt5350_
++@@ -5230,11 +5262,15 @@ static const struct mtk_soc_data rt5350_
+  	.required_clks = MT7628_CLKS_BITMAP,
+  	.required_pctl = false,
+  	.version = 1,
+diff --git a/target/linux/generic/backport-6.6/751-02-v6.8-net-ethernet-mediatek-use-QDMA-instead-of-ADMAv2-on-.patch b/target/linux/generic/backport-6.6/751-02-v6.8-net-ethernet-mediatek-use-QDMA-instead-of-ADMAv2-on-.patch
+index 2499f48bc6..3531399b83 100644
+--- a/target/linux/generic/backport-6.6/751-02-v6.8-net-ethernet-mediatek-use-QDMA-instead-of-ADMAv2-on-.patch
++++ b/target/linux/generic/backport-6.6/751-02-v6.8-net-ethernet-mediatek-use-QDMA-instead-of-ADMAv2-on-.patch
+@@ -76,7 +76,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  			reason = FIELD_GET(MTK_RXD5_PPE_CPU_REASON, trxd.rxd5);
+  			hash = trxd.rxd5 & MTK_RXD5_FOE_ENTRY;
+  			if (hash != MTK_RXD5_FOE_ENTRY)
+-@@ -2686,7 +2686,7 @@ static int mtk_rx_alloc(struct mtk_eth *
++@@ -2690,7 +2690,7 @@ static int mtk_rx_alloc(struct mtk_eth *
+  
+  		rxd->rxd3 = 0;
+  		rxd->rxd4 = 0;
+@@ -85,7 +85,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  			rxd->rxd5 = 0;
+  			rxd->rxd6 = 0;
+  			rxd->rxd7 = 0;
+-@@ -3889,7 +3889,7 @@ static int mtk_hw_init(struct mtk_eth *e
++@@ -3901,7 +3901,7 @@ static int mtk_hw_init(struct mtk_eth *e
+  	else
+  		mtk_hw_reset(eth);
+  
+@@ -94,7 +94,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  		/* Set FE to PDMAv2 if necessary */
+  		val = mtk_r32(eth, MTK_FE_GLO_MISC);
+  		mtk_w32(eth,  val | BIT(4), MTK_FE_GLO_MISC);
+-@@ -5183,11 +5183,11 @@ static const struct mtk_soc_data mt7981_
++@@ -5195,11 +5195,11 @@ static const struct mtk_soc_data mt7981_
+  		.dma_len_offset = 8,
+  	},
+  	.rx = {
+@@ -110,7 +110,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	},
+  };
+  
+-@@ -5209,11 +5209,11 @@ static const struct mtk_soc_data mt7986_
++@@ -5221,11 +5221,11 @@ static const struct mtk_soc_data mt7986_
+  		.dma_len_offset = 8,
+  	},
+  	.rx = {
+diff --git a/target/linux/generic/backport-6.6/752-25-v6.10-net-ethernet-mtk_eth_soc-handle-dma-buffer-size-soc-.patch b/target/linux/generic/backport-6.6/752-25-v6.10-net-ethernet-mtk_eth_soc-handle-dma-buffer-size-soc-.patch
+index ddb8107186..0df5a680b3 100644
+--- a/target/linux/generic/backport-6.6/752-25-v6.10-net-ethernet-mtk_eth_soc-handle-dma-buffer-size-soc-.patch
++++ b/target/linux/generic/backport-6.6/752-25-v6.10-net-ethernet-mtk_eth_soc-handle-dma-buffer-size-soc-.patch
+@@ -123,7 +123,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  		}
+  	}
+  
+-@@ -2457,7 +2463,7 @@ static int mtk_tx_alloc(struct mtk_eth *
++@@ -2461,7 +2467,7 @@ static int mtk_tx_alloc(struct mtk_eth *
+  	if (MTK_HAS_CAPS(soc->caps, MTK_QDMA))
+  		ring_size = MTK_QDMA_RING_SIZE;
+  	else
+@@ -132,7 +132,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  
+  	ring->buf = kcalloc(ring_size, sizeof(*ring->buf),
+  			       GFP_KERNEL);
+-@@ -2465,8 +2471,8 @@ static int mtk_tx_alloc(struct mtk_eth *
++@@ -2469,8 +2475,8 @@ static int mtk_tx_alloc(struct mtk_eth *
+  		goto no_tx_mem;
+  
+  	if (MTK_HAS_CAPS(soc->caps, MTK_SRAM)) {
+@@ -143,7 +143,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	} else {
+  		ring->dma = dma_alloc_coherent(eth->dma_dev, ring_size * sz,
+  					       &ring->phys, GFP_KERNEL);
+-@@ -2588,6 +2594,7 @@ static void mtk_tx_clean(struct mtk_eth
++@@ -2592,6 +2598,7 @@ static void mtk_tx_clean(struct mtk_eth
+  static int mtk_rx_alloc(struct mtk_eth *eth, int ring_no, int rx_flag)
+  {
+  	const struct mtk_reg_map *reg_map = eth->soc->reg_map;
+@@ -151,7 +151,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	struct mtk_rx_ring *ring;
+  	int rx_data_len, rx_dma_size, tx_ring_size;
+  	int i;
+-@@ -2595,7 +2602,7 @@ static int mtk_rx_alloc(struct mtk_eth *
++@@ -2599,7 +2606,7 @@ static int mtk_rx_alloc(struct mtk_eth *
+  	if (MTK_HAS_CAPS(eth->soc->caps, MTK_QDMA))
+  		tx_ring_size = MTK_QDMA_RING_SIZE;
+  	else
+@@ -160,7 +160,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  
+  	if (rx_flag == MTK_RX_FLAGS_QDMA) {
+  		if (ring_no)
+-@@ -2610,7 +2617,7 @@ static int mtk_rx_alloc(struct mtk_eth *
++@@ -2614,7 +2621,7 @@ static int mtk_rx_alloc(struct mtk_eth *
+  		rx_dma_size = MTK_HW_LRO_DMA_SIZE;
+  	} else {
+  		rx_data_len = ETH_DATA_LEN;
+@@ -169,7 +169,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	}
+  
+  	ring->frag_size = mtk_max_frag_size(rx_data_len);
+-@@ -3139,7 +3146,10 @@ static void mtk_dma_free(struct mtk_eth
++@@ -3151,7 +3158,10 @@ static void mtk_dma_free(struct mtk_eth
+  			mtk_rx_clean(eth, &eth->rx_ring[i], false);
+  	}
+  
+@@ -181,7 +181,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  }
+  
+  static bool mtk_hw_reset_check(struct mtk_eth *eth)
+-@@ -5061,11 +5071,14 @@ static const struct mtk_soc_data mt2701_
++@@ -5073,11 +5083,14 @@ static const struct mtk_soc_data mt2701_
+  		.desc_size = sizeof(struct mtk_tx_dma),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -196,7 +196,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5085,11 +5098,14 @@ static const struct mtk_soc_data mt7621_
++@@ -5097,11 +5110,14 @@ static const struct mtk_soc_data mt7621_
+  		.desc_size = sizeof(struct mtk_tx_dma),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -211,7 +211,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5111,11 +5127,14 @@ static const struct mtk_soc_data mt7622_
++@@ -5123,11 +5139,14 @@ static const struct mtk_soc_data mt7622_
+  		.desc_size = sizeof(struct mtk_tx_dma),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -226,7 +226,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5136,11 +5155,14 @@ static const struct mtk_soc_data mt7623_
++@@ -5148,11 +5167,14 @@ static const struct mtk_soc_data mt7623_
+  		.desc_size = sizeof(struct mtk_tx_dma),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -241,7 +241,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5159,11 +5181,14 @@ static const struct mtk_soc_data mt7629_
++@@ -5171,11 +5193,14 @@ static const struct mtk_soc_data mt7629_
+  		.desc_size = sizeof(struct mtk_tx_dma),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -256,7 +256,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5185,6 +5210,8 @@ static const struct mtk_soc_data mt7981_
++@@ -5197,6 +5222,8 @@ static const struct mtk_soc_data mt7981_
+  		.desc_size = sizeof(struct mtk_tx_dma_v2),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN_V2,
+  		.dma_len_offset = 8,
+@@ -265,7 +265,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	},
+  	.rx = {
+  		.desc_size = sizeof(struct mtk_rx_dma),
+-@@ -5192,6 +5219,7 @@ static const struct mtk_soc_data mt7981_
++@@ -5204,6 +5231,7 @@ static const struct mtk_soc_data mt7981_
+  		.dma_l4_valid = RX_DMA_L4_VALID_V2,
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -273,7 +273,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	},
+  };
+  
+-@@ -5211,6 +5239,8 @@ static const struct mtk_soc_data mt7986_
++@@ -5223,6 +5251,8 @@ static const struct mtk_soc_data mt7986_
+  		.desc_size = sizeof(struct mtk_tx_dma_v2),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN_V2,
+  		.dma_len_offset = 8,
+@@ -282,7 +282,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	},
+  	.rx = {
+  		.desc_size = sizeof(struct mtk_rx_dma),
+-@@ -5218,6 +5248,7 @@ static const struct mtk_soc_data mt7986_
++@@ -5230,6 +5260,7 @@ static const struct mtk_soc_data mt7986_
+  		.dma_l4_valid = RX_DMA_L4_VALID_V2,
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -290,7 +290,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	},
+  };
+  
+-@@ -5237,6 +5268,8 @@ static const struct mtk_soc_data mt7988_
++@@ -5249,6 +5280,8 @@ static const struct mtk_soc_data mt7988_
+  		.desc_size = sizeof(struct mtk_tx_dma_v2),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN_V2,
+  		.dma_len_offset = 8,
+@@ -299,7 +299,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	},
+  	.rx = {
+  		.desc_size = sizeof(struct mtk_rx_dma_v2),
+-@@ -5244,6 +5277,7 @@ static const struct mtk_soc_data mt7988_
++@@ -5256,6 +5289,7 @@ static const struct mtk_soc_data mt7988_
+  		.dma_l4_valid = RX_DMA_L4_VALID_V2,
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN_V2,
+  		.dma_len_offset = 8,
+@@ -307,7 +307,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	},
+  };
+  
+-@@ -5258,6 +5292,7 @@ static const struct mtk_soc_data rt5350_
++@@ -5270,6 +5304,7 @@ static const struct mtk_soc_data rt5350_
+  		.desc_size = sizeof(struct mtk_tx_dma),
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -315,7 +315,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+  	},
+  	.rx = {
+  		.desc_size = sizeof(struct mtk_rx_dma),
+-@@ -5265,6 +5300,7 @@ static const struct mtk_soc_data rt5350_
++@@ -5277,6 +5312,7 @@ static const struct mtk_soc_data rt5350_
+  		.dma_l4_valid = RX_DMA_L4_VALID_PDMA,
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+diff --git a/target/linux/generic/backport-6.6/752-26-v6.10-net-ethernet-mtk_eth_soc-ppe-add-support-for-multipl.patch b/target/linux/generic/backport-6.6/752-26-v6.10-net-ethernet-mtk_eth_soc-ppe-add-support-for-multipl.patch
+index ae75eb5c3e..e924551eb9 100644
+--- a/target/linux/generic/backport-6.6/752-26-v6.10-net-ethernet-mtk_eth_soc-ppe-add-support-for-multipl.patch
++++ b/target/linux/generic/backport-6.6/752-26-v6.10-net-ethernet-mtk_eth_soc-ppe-add-support-for-multipl.patch
+@@ -85,7 +85,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  
+  		skb_record_rx_queue(skb, 0);
+  		napi_gro_receive(napi, skb);
+-@@ -3276,37 +3287,27 @@ static int mtk_start_dma(struct mtk_eth
++@@ -3288,37 +3299,27 @@ static int mtk_start_dma(struct mtk_eth
+  	return 0;
+  }
+  
+@@ -134,7 +134,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  }
+  
+  
+-@@ -3366,7 +3367,10 @@ static int mtk_open(struct net_device *d
++@@ -3378,7 +3379,10 @@ static int mtk_open(struct net_device *d
+  {
+  	struct mtk_mac *mac = netdev_priv(dev);
+  	struct mtk_eth *eth = mac->hw;
+@@ -146,7 +146,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  
+  	err = phylink_of_phy_connect(mac->phylink, mac->of_node, 0);
+  	if (err) {
+-@@ -3390,18 +3394,38 @@ static int mtk_open(struct net_device *d
++@@ -3402,18 +3406,38 @@ static int mtk_open(struct net_device *d
+  		for (i = 0; i < ARRAY_SIZE(eth->ppe); i++)
+  			mtk_ppe_start(eth->ppe[i]);
+  
+@@ -190,7 +190,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  
+  	phylink_start(mac->phylink);
+  	netif_tx_start_all_queues(dev);
+-@@ -3478,7 +3502,8 @@ static int mtk_stop(struct net_device *d
++@@ -3490,7 +3514,8 @@ static int mtk_stop(struct net_device *d
+  	if (!refcount_dec_and_test(&eth->dma_refcnt))
+  		return 0;
+  
+@@ -200,7 +200,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  
+  	mtk_tx_irq_disable(eth, MTK_TX_DONE_INT);
+  	mtk_rx_irq_disable(eth, eth->soc->rx.irq_done_mask);
+-@@ -4973,23 +4998,24 @@ static int mtk_probe(struct platform_dev
++@@ -4985,23 +5010,24 @@ static int mtk_probe(struct platform_dev
+  	}
+  
+  	if (eth->soc->offload_version) {
+@@ -233,7 +233,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	}
+  
+  	for (i = 0; i < MTK_MAX_DEVS; i++) {
+-@@ -5092,6 +5118,7 @@ static const struct mtk_soc_data mt7621_
++@@ -5104,6 +5130,7 @@ static const struct mtk_soc_data mt7621_
+  	.required_pctl = false,
+  	.version = 1,
+  	.offload_version = 1,
+@@ -241,7 +241,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	.hash_offset = 2,
+  	.foe_entry_size = MTK_FOE_ENTRY_V1_SIZE,
+  	.tx = {
+-@@ -5120,6 +5147,7 @@ static const struct mtk_soc_data mt7622_
++@@ -5132,6 +5159,7 @@ static const struct mtk_soc_data mt7622_
+  	.required_pctl = false,
+  	.version = 1,
+  	.offload_version = 2,
+@@ -249,7 +249,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	.hash_offset = 2,
+  	.has_accounting = true,
+  	.foe_entry_size = MTK_FOE_ENTRY_V1_SIZE,
+-@@ -5148,6 +5176,7 @@ static const struct mtk_soc_data mt7623_
++@@ -5160,6 +5188,7 @@ static const struct mtk_soc_data mt7623_
+  	.required_pctl = true,
+  	.version = 1,
+  	.offload_version = 1,
+@@ -257,7 +257,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	.hash_offset = 2,
+  	.foe_entry_size = MTK_FOE_ENTRY_V1_SIZE,
+  	.disable_pll_modes = true,
+-@@ -5203,6 +5232,7 @@ static const struct mtk_soc_data mt7981_
++@@ -5215,6 +5244,7 @@ static const struct mtk_soc_data mt7981_
+  	.required_pctl = false,
+  	.version = 2,
+  	.offload_version = 2,
+@@ -265,7 +265,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	.hash_offset = 4,
+  	.has_accounting = true,
+  	.foe_entry_size = MTK_FOE_ENTRY_V2_SIZE,
+-@@ -5232,6 +5262,7 @@ static const struct mtk_soc_data mt7986_
++@@ -5244,6 +5274,7 @@ static const struct mtk_soc_data mt7986_
+  	.required_pctl = false,
+  	.version = 2,
+  	.offload_version = 2,
+@@ -273,7 +273,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  	.hash_offset = 4,
+  	.has_accounting = true,
+  	.foe_entry_size = MTK_FOE_ENTRY_V2_SIZE,
+-@@ -5261,6 +5292,7 @@ static const struct mtk_soc_data mt7988_
++@@ -5273,6 +5304,7 @@ static const struct mtk_soc_data mt7988_
+  	.required_pctl = false,
+  	.version = 3,
+  	.offload_version = 2,
+diff --git a/target/linux/generic/backport-6.6/752-28-v6.10-net-ethernet-mediatek-Allow-gaps-in-MAC-allocation.patch b/target/linux/generic/backport-6.6/752-28-v6.10-net-ethernet-mediatek-Allow-gaps-in-MAC-allocation.patch
+index b62586b992..27ad9dca2c 100644
+--- a/target/linux/generic/backport-6.6/752-28-v6.10-net-ethernet-mediatek-Allow-gaps-in-MAC-allocation.patch
++++ b/target/linux/generic/backport-6.6/752-28-v6.10-net-ethernet-mediatek-Allow-gaps-in-MAC-allocation.patch
+@@ -21,7 +21,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+ 
+ --- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+ +++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+-@@ -3396,7 +3396,7 @@ static int mtk_open(struct net_device *d
++@@ -3408,7 +3408,7 @@ static int mtk_open(struct net_device *d
+  
+  		for (i = 0; i < MTK_MAX_DEVS; i++) {
+  			if (!eth->netdev[i])
+diff --git a/target/linux/generic/backport-6.6/752-30-v6.10-net-ethernet-mtk_eth_soc-implement-.-get-set-_pausep.patch b/target/linux/generic/backport-6.6/752-30-v6.10-net-ethernet-mtk_eth_soc-implement-.-get-set-_pausep.patch
+index 970812c6b2..b16910e18e 100644
+--- a/target/linux/generic/backport-6.6/752-30-v6.10-net-ethernet-mtk_eth_soc-implement-.-get-set-_pausep.patch
++++ b/target/linux/generic/backport-6.6/752-30-v6.10-net-ethernet-mtk_eth_soc-implement-.-get-set-_pausep.patch
+@@ -20,7 +20,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+ 
+ --- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+ +++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+-@@ -4478,6 +4478,20 @@ static int mtk_set_rxnfc(struct net_devi
++@@ -4490,6 +4490,20 @@ static int mtk_set_rxnfc(struct net_devi
+  	return ret;
+  }
+  
+@@ -41,7 +41,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+  static u16 mtk_select_queue(struct net_device *dev, struct sk_buff *skb,
+  			    struct net_device *sb_dev)
+  {
+-@@ -4506,8 +4520,10 @@ static const struct ethtool_ops mtk_etht
++@@ -4518,8 +4532,10 @@ static const struct ethtool_ops mtk_etht
+  	.get_strings		= mtk_get_strings,
+  	.get_sset_count		= mtk_get_sset_count,
+  	.get_ethtool_stats	= mtk_get_ethtool_stats,
+diff --git a/target/linux/generic/hack-6.6/204-module_strip.patch b/target/linux/generic/hack-6.6/204-module_strip.patch
+index 24ec94f515..ccadee1e5a 100644
+--- a/target/linux/generic/hack-6.6/204-module_strip.patch
++++ b/target/linux/generic/hack-6.6/204-module_strip.patch
+@@ -14,7 +14,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+ 
+ --- a/include/linux/module.h
+ +++ b/include/linux/module.h
+-@@ -164,6 +164,7 @@ extern void cleanup_module(void);
++@@ -166,6 +166,7 @@ struct module_kobject *lookup_or_create_
+  
+  /* Generic info of form tag = "info" */
+  #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+@@ -22,7 +22,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  
+  /* For userspace: you can also call me... */
+  #define MODULE_ALIAS(_alias) MODULE_INFO(alias, _alias)
+-@@ -233,12 +234,12 @@ extern void cleanup_module(void);
++@@ -235,12 +236,12 @@ struct module_kobject *lookup_or_create_
+   * Author(s), use "Name <email>" or just "Name", for multiple
+   * authors use multiple MODULE_AUTHOR() statements/lines.
+   */
+@@ -38,7 +38,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  /* Creates an alias so file2alias.c can find device table. */
+  #define MODULE_DEVICE_TABLE(type, name)					\
+  extern typeof(name) __mod_##type##__##name##_device_table		\
+-@@ -265,7 +266,9 @@ extern typeof(name) __mod_##type##__##na
++@@ -267,7 +268,9 @@ extern typeof(name) __mod_##type##__##na
+   */
+  
+  #if defined(MODULE) || !defined(CONFIG_SYSFS)
+@@ -49,7 +49,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  #else
+  #define MODULE_VERSION(_version)					\
+  	MODULE_INFO(version, _version);					\
+-@@ -288,7 +291,7 @@ extern typeof(name) __mod_##type##__##na
++@@ -290,7 +293,7 @@ extern typeof(name) __mod_##type##__##na
+  /* Optional firmware file (or files) needed by the module
+   * format is simply firmware file name.  Multiple firmware
+   * files require multiple MODULE_FIRMWARE() specifiers */
+diff --git a/target/linux/generic/hack-6.6/721-net-add-packet-mangeling.patch b/target/linux/generic/hack-6.6/721-net-add-packet-mangeling.patch
+index 0935a0b9c0..8b784836a0 100644
+--- a/target/linux/generic/hack-6.6/721-net-add-packet-mangeling.patch
++++ b/target/linux/generic/hack-6.6/721-net-add-packet-mangeling.patch
+@@ -60,7 +60,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+   */
+ --- a/include/linux/skbuff.h
+ +++ b/include/linux/skbuff.h
+-@@ -3095,6 +3095,10 @@ static inline int pskb_trim(struct sk_bu
++@@ -3098,6 +3098,10 @@ static inline int pskb_trim(struct sk_bu
+  	return (len < skb->len) ? __pskb_trim(skb, len) : 0;
+  }
+  
+@@ -71,7 +71,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  /**
+   *	pskb_trim_unique - remove end from a paged unique (not cloned) buffer
+   *	@skb: buffer to alter
+-@@ -3260,16 +3264,6 @@ static inline struct sk_buff *dev_alloc_
++@@ -3263,16 +3267,6 @@ static inline struct sk_buff *dev_alloc_
+  }
+  
+  
+diff --git a/target/linux/generic/hack-6.6/781-usb-net-rndis-support-asr.patch b/target/linux/generic/hack-6.6/781-usb-net-rndis-support-asr.patch
+index d5cc7e0a7e..47339b6c22 100644
+--- a/target/linux/generic/hack-6.6/781-usb-net-rndis-support-asr.patch
++++ b/target/linux/generic/hack-6.6/781-usb-net-rndis-support-asr.patch
+@@ -13,7 +13,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+ 
+ --- a/drivers/net/usb/rndis_host.c
+ +++ b/drivers/net/usb/rndis_host.c
+-@@ -640,6 +640,16 @@ static const struct driver_info	wwan_rnd
++@@ -630,6 +630,16 @@ static const struct driver_info	zte_rndi
+  	.tx_fixup =	rndis_tx_fixup,
+  };
+  
+@@ -30,7 +30,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  /*-------------------------------------------------------------------------*/
+  
+  static const struct usb_device_id	products [] = {
+-@@ -676,6 +686,36 @@ static const struct usb_device_id	produc
++@@ -666,6 +676,36 @@ static const struct usb_device_id	produc
+  	USB_INTERFACE_INFO(USB_CLASS_WIRELESS_CONTROLLER, 1, 3),
+  	.driver_info = (unsigned long) &rndis_info,
+  }, {
+@@ -64,6 +64,6 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+ +				      USB_CLASS_WIRELESS_CONTROLLER, 1, 3),
+ +	.driver_info = (unsigned long) &asr_rndis_info,
+ +}, {
+- 	/* Mobile Broadband Modem, seen in Novatel Verizon USB730L and
+- 	 * Telit FN990A (RNDIS)
+- 	 */
++ 	/* Novatel Verizon USB730L */
++ 	USB_INTERFACE_INFO(USB_CLASS_MISC, 4, 1),
++ 	.driver_info = (unsigned long) &rndis_info,
+diff --git a/target/linux/generic/pending-6.6/655-increase_skb_pad.patch b/target/linux/generic/pending-6.6/655-increase_skb_pad.patch
+index ce7db566e5..4f3bb06051 100644
+--- a/target/linux/generic/pending-6.6/655-increase_skb_pad.patch
++++ b/target/linux/generic/pending-6.6/655-increase_skb_pad.patch
+@@ -9,7 +9,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+ 
+ --- a/include/linux/skbuff.h
+ +++ b/include/linux/skbuff.h
+-@@ -3062,7 +3062,7 @@ static inline int pskb_network_may_pull(
++@@ -3065,7 +3065,7 @@ static inline int pskb_network_may_pull(
+   * NET_IP_ALIGN(2) + ethernet_header(14) + IP_header(20/40) + ports(8)
+   */
+  #ifndef NET_SKB_PAD
+diff --git a/target/linux/generic/pending-6.6/680-net-add-TCP-fraglist-GRO-support.patch b/target/linux/generic/pending-6.6/680-net-add-TCP-fraglist-GRO-support.patch
+index fcc6a1f14f..223fce786e 100644
+--- a/target/linux/generic/pending-6.6/680-net-add-TCP-fraglist-GRO-support.patch
++++ b/target/linux/generic/pending-6.6/680-net-add-TCP-fraglist-GRO-support.patch
+@@ -379,7 +379,7 @@ Signe-off-by: Felix Fietkau <nbd@nbd.name>
+  	skb_shinfo(skb)->gso_type |= SKB_GSO_TCPV4;
+ --- a/net/ipv4/udp_offload.c
+ +++ b/net/ipv4/udp_offload.c
+-@@ -474,33 +474,6 @@ out:
++@@ -533,33 +533,6 @@ out:
+  	return segs;
+  }
+  
+diff --git a/target/linux/generic/pending-6.6/691-net-ipv6-fix-UDPv6-GSO-segmentation-with-NAT.patch b/target/linux/generic/pending-6.6/691-net-ipv6-fix-UDPv6-GSO-segmentation-with-NAT.patch
+deleted file mode 100644
+index 6bbe2ca880..0000000000
+--- a/target/linux/generic/pending-6.6/691-net-ipv6-fix-UDPv6-GSO-segmentation-with-NAT.patch
++++ /dev/null
+@@ -1,88 +0,0 @@
+-From: Felix Fietkau <nbd@nbd.name>
+-Date: Sat, 26 Apr 2025 17:18:03 +0200
+-Subject: [PATCH] net: ipv6: fix UDPv6 GSO segmentation with NAT
+-
+-If any address or port is changed, update it in all packets and recalculate
+-checksum.
+-
+-Fixes: 9fd1ff5d2ac7 ("udp: Support UDP fraglist GRO/GSO.")
+-Signed-off-by: Felix Fietkau <nbd@nbd.name>
+----
+-
+---- a/net/ipv4/udp_offload.c
+-+++ b/net/ipv4/udp_offload.c
+-@@ -247,6 +247,62 @@ static struct sk_buff *__udpv4_gso_segme
+- 	return segs;
+- }
+- 
+-+static void __udpv6_gso_segment_csum(struct sk_buff *seg,
+-+				     struct in6_addr *oldip,
+-+				     const struct in6_addr *newip,
+-+				     __be16 *oldport, __be16 newport)
+-+{
+-+	struct udphdr *uh = udp_hdr(seg);
+-+
+-+	if (ipv6_addr_equal(oldip, newip) && *oldport == newport)
+-+		return;
+-+
+-+	if (uh->check) {
+-+		inet_proto_csum_replace16(&uh->check, seg, oldip->s6_addr32,
+-+					  newip->s6_addr32, true);
+-+
+-+		inet_proto_csum_replace2(&uh->check, seg, *oldport, newport,
+-+					 false);
+-+		if (!uh->check)
+-+			uh->check = CSUM_MANGLED_0;
+-+	}
+-+
+-+	*oldip = *newip;
+-+	*oldport = newport;
+-+}
+-+
+-+static struct sk_buff *__udpv6_gso_segment_list_csum(struct sk_buff *segs)
+-+{
+-+	const struct ipv6hdr *iph;
+-+	const struct udphdr *uh;
+-+	struct ipv6hdr *iph2;
+-+	struct sk_buff *seg;
+-+	struct udphdr *uh2;
+-+
+-+	seg = segs;
+-+	uh = udp_hdr(seg);
+-+	iph = ipv6_hdr(seg);
+-+	uh2 = udp_hdr(seg->next);
+-+	iph2 = ipv6_hdr(seg->next);
+-+
+-+	if (!(*(const u32 *)&uh->source ^ *(const u32 *)&uh2->source) &&
+-+	    ipv6_addr_equal(&iph->saddr, &iph2->saddr) &&
+-+	    ipv6_addr_equal(&iph->daddr, &iph2->daddr))
+-+		return segs;
+-+
+-+	while ((seg = seg->next)) {
+-+		uh2 = udp_hdr(seg);
+-+		iph2 = ipv6_hdr(seg);
+-+
+-+		__udpv6_gso_segment_csum(seg, &iph2->saddr, &iph->saddr,
+-+					 &uh2->source, uh->source);
+-+		__udpv6_gso_segment_csum(seg, &iph2->daddr, &iph->daddr,
+-+					 &uh2->dest, uh->dest);
+-+	}
+-+
+-+	return segs;
+-+}
+-+
+- static struct sk_buff *__udp_gso_segment_list(struct sk_buff *skb,
+- 					      netdev_features_t features,
+- 					      bool is_ipv6)
+-@@ -259,7 +315,10 @@ static struct sk_buff *__udp_gso_segment
+- 
+- 	udp_hdr(skb)->len = htons(sizeof(struct udphdr) + mss);
+- 
+--	return is_ipv6 ? skb : __udpv4_gso_segment_list_csum(skb);
+-+	if (is_ipv6)
+-+		return __udpv6_gso_segment_list_csum(skb);
+-+	else
+-+		return __udpv4_gso_segment_list_csum(skb);
+- }
+- 
+- struct sk_buff *__udp_gso_segment(struct sk_buff *gso_skb,
+diff --git a/target/linux/generic/pending-6.6/702-net-ethernet-mtk_eth_soc-enable-threaded-NAPI.patch b/target/linux/generic/pending-6.6/702-net-ethernet-mtk_eth_soc-enable-threaded-NAPI.patch
+index 3136238801..cd3c9df2bb 100644
+--- a/target/linux/generic/pending-6.6/702-net-ethernet-mtk_eth_soc-enable-threaded-NAPI.patch
++++ b/target/linux/generic/pending-6.6/702-net-ethernet-mtk_eth_soc-enable-threaded-NAPI.patch
+@@ -10,7 +10,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+ 
+ --- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+ +++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+-@@ -5052,6 +5052,8 @@ static int mtk_probe(struct platform_dev
++@@ -5064,6 +5064,8 @@ static int mtk_probe(struct platform_dev
+  	 * for NAPI to work
+  	 */
+  	init_dummy_netdev(&eth->dummy_dev);
+diff --git a/target/linux/generic/pending-6.6/730-net-ethernet-mtk_eth_soc-reset-all-TX-queues-on-DMA-.patch b/target/linux/generic/pending-6.6/730-net-ethernet-mtk_eth_soc-reset-all-TX-queues-on-DMA-.patch
+deleted file mode 100644
+index 67d0ab4537..0000000000
+--- a/target/linux/generic/pending-6.6/730-net-ethernet-mtk_eth_soc-reset-all-TX-queues-on-DMA-.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 7d41a5a8e9c91cc6bb011dd953570738583dd091 Mon Sep 17 00:00:00 2001
+-From: Daniel Golle <daniel@makrotopia.org>
+-Date: Wed, 18 Sep 2024 02:01:01 +0100
+-Subject: [PATCH] net: ethernet: mtk_eth_soc: reset all TX queues on DMA free
+-
+-The purpose of resetting the TX queue is to reset the
+-byte and packet count as well as to clear the software
+-flow control XOFF bit.
+-
+-MediaTek developers pointed out that netdev_reset_queue would only
+-resets queue 0 of the network device.
+-Queues that are not reset may cause unexpected issues.
+-
+-Packets may stop being sent after reset and "transmit timeout" log may
+-be displayed.
+-
+-Import fix from MediaTek's SDK to resolve this issue.
+-
+-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+----
+- drivers/net/ethernet/mediatek/mtk_eth_soc.c | 18 ++++++++++++++----
+- 1 file changed, 14 insertions(+), 4 deletions(-)
+-
+---- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+-+++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+-@@ -3135,11 +3135,19 @@ static int mtk_dma_init(struct mtk_eth *
+- static void mtk_dma_free(struct mtk_eth *eth)
+- {
+- 	const struct mtk_soc_data *soc = eth->soc;
+--	int i;
+-+	int i, j, txqs = 1;
+-+
+-+	if (MTK_HAS_CAPS(eth->soc->caps, MTK_QDMA))
+-+		txqs = MTK_QDMA_NUM_QUEUES;
+-+
+-+	for (i = 0; i < MTK_MAX_DEVS; i++) {
+-+		if (!eth->netdev[i])
+-+			continue;
+-+
+-+		for (j = 0; j < txqs; j++)
+-+			netdev_tx_reset_queue(netdev_get_tx_queue(eth->netdev[i], j));
+-+	}
+- 
+--	for (i = 0; i < MTK_MAX_DEVS; i++)
+--		if (eth->netdev[i])
+--			netdev_reset_queue(eth->netdev[i]);
+- 	if (!MTK_HAS_CAPS(soc->caps, MTK_SRAM) && eth->scratch_ring) {
+- 		dma_free_coherent(eth->dma_dev,
+- 				  MTK_QDMA_RING_SIZE * soc->tx.desc_size,
+diff --git a/target/linux/generic/pending-6.6/734-net-ethernet-mediatek-enlarge-DMA-reserve-buffer.patch b/target/linux/generic/pending-6.6/734-net-ethernet-mediatek-enlarge-DMA-reserve-buffer.patch
+index dd9783bfcb..c97df557c6 100644
+--- a/target/linux/generic/pending-6.6/734-net-ethernet-mediatek-enlarge-DMA-reserve-buffer.patch
++++ b/target/linux/generic/pending-6.6/734-net-ethernet-mediatek-enlarge-DMA-reserve-buffer.patch
+@@ -25,7 +25,7 @@ Signed-off-by: Chad Monroe <chad@monroe.io>
+  /* QDMA Flow Control Register */
+ --- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+ +++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+-@@ -3309,12 +3309,14 @@ static int mtk_start_dma(struct mtk_eth
++@@ -3313,12 +3313,14 @@ static int mtk_start_dma(struct mtk_eth
+  		       MTK_TX_BT_32DWORDS | MTK_NDP_CO_PRO |
+  		       MTK_RX_2B_OFFSET | MTK_TX_WB_DDONE;
+  
+diff --git a/target/linux/generic/pending-6.6/737-net-ethernet-mtk_eth_soc-add-paths-and-SerDes-modes-.patch b/target/linux/generic/pending-6.6/737-net-ethernet-mtk_eth_soc-add-paths-and-SerDes-modes-.patch
+index cdfb1b8270..4d718f9fa0 100644
+--- a/target/linux/generic/pending-6.6/737-net-ethernet-mtk_eth_soc-add-paths-and-SerDes-modes-.patch
++++ b/target/linux/generic/pending-6.6/737-net-ethernet-mtk_eth_soc-add-paths-and-SerDes-modes-.patch
+@@ -490,7 +490,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  	.mac_finish = mtk_mac_finish,
+  	.mac_link_down = mtk_mac_link_down,
+  	.mac_link_up = mtk_mac_link_up,
+-@@ -3417,6 +3558,9 @@ static int mtk_open(struct net_device *d
++@@ -3421,6 +3562,9 @@ static int mtk_open(struct net_device *d
+  
+  	ppe_num = eth->soc->ppe_num;
+  
+@@ -500,7 +500,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  	err = phylink_of_phy_connect(mac->phylink, mac->of_node, 0);
+  	if (err) {
+  		netdev_err(dev, "%s: could not attach PHY: %d\n", __func__,
+-@@ -3567,6 +3711,9 @@ static int mtk_stop(struct net_device *d
++@@ -3571,6 +3715,9 @@ static int mtk_stop(struct net_device *d
+  	for (i = 0; i < ARRAY_SIZE(eth->ppe); i++)
+  		mtk_ppe_stop(eth->ppe[i]);
+  
+@@ -510,7 +510,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  	return 0;
+  }
+  
+-@@ -4596,6 +4743,7 @@ static const struct net_device_ops mtk_n
++@@ -4600,6 +4747,7 @@ static const struct net_device_ops mtk_n
+  static int mtk_add_mac(struct mtk_eth *eth, struct device_node *np)
+  {
+  	const __be32 *_id = of_get_property(np, "reg", NULL);
+@@ -518,7 +518,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  	phy_interface_t phy_mode;
+  	struct phylink *phylink;
+  	struct mtk_mac *mac;
+-@@ -4632,16 +4780,41 @@ static int mtk_add_mac(struct mtk_eth *e
++@@ -4636,16 +4784,41 @@ static int mtk_add_mac(struct mtk_eth *e
+  	mac->id = id;
+  	mac->hw = eth;
+  	mac->of_node = np;
+@@ -568,7 +568,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  	}
+  
+  	memset(mac->hwlro_ip, 0, sizeof(mac->hwlro_ip));
+-@@ -4724,8 +4897,21 @@ static int mtk_add_mac(struct mtk_eth *e
++@@ -4728,8 +4901,21 @@ static int mtk_add_mac(struct mtk_eth *e
+  		phy_interface_zero(mac->phylink_config.supported_interfaces);
+  		__set_bit(PHY_INTERFACE_MODE_INTERNAL,
+  			  mac->phylink_config.supported_interfaces);
+@@ -590,7 +590,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  	phylink = phylink_create(&mac->phylink_config,
+  				 of_fwnode_handle(mac->of_node),
+  				 phy_mode, &mtk_phylink_ops);
+-@@ -4776,6 +4962,26 @@ free_netdev:
++@@ -4780,6 +4966,26 @@ free_netdev:
+  	return err;
+  }
+  
+@@ -617,7 +617,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  void mtk_eth_set_dma_device(struct mtk_eth *eth, struct device *dma_dev)
+  {
+  	struct net_device *dev, *tmp;
+-@@ -4922,7 +5128,8 @@ static int mtk_probe(struct platform_dev
++@@ -4926,7 +5132,8 @@ static int mtk_probe(struct platform_dev
+  			regmap_write(cci, 0, 3);
+  	}
+  
+@@ -627,7 +627,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  		err = mtk_sgmii_init(eth);
+  
+  		if (err)
+-@@ -5033,6 +5240,24 @@ static int mtk_probe(struct platform_dev
++@@ -5037,6 +5244,24 @@ static int mtk_probe(struct platform_dev
+  		}
+  	}
+  
+@@ -652,7 +652,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+  	if (MTK_HAS_CAPS(eth->soc->caps, MTK_SHARED_INT)) {
+  		err = devm_request_irq(eth->dev, eth->irq[0],
+  				       mtk_handle_irq, 0,
+-@@ -5136,6 +5361,11 @@ static int mtk_remove(struct platform_de
++@@ -5140,6 +5365,11 @@ static int mtk_remove(struct platform_de
+  		mtk_stop(eth->netdev[i]);
+  		mac = netdev_priv(eth->netdev[i]);
+  		phylink_disconnect_phy(mac->phylink);
+diff --git a/target/linux/generic/pending-6.6/738-01-net-ethernet-mtk_eth_soc-reduce-rx-ring-size-for-older.patch b/target/linux/generic/pending-6.6/738-01-net-ethernet-mtk_eth_soc-reduce-rx-ring-size-for-older.patch
+index 7cfd323854..7b49f0e2b7 100644
+--- a/target/linux/generic/pending-6.6/738-01-net-ethernet-mtk_eth_soc-reduce-rx-ring-size-for-older.patch
++++ b/target/linux/generic/pending-6.6/738-01-net-ethernet-mtk_eth_soc-reduce-rx-ring-size-for-older.patch
+@@ -30,7 +30,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+ 
+ --- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+ +++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+-@@ -5397,7 +5397,7 @@ static const struct mtk_soc_data mt2701_
++@@ -5401,7 +5401,7 @@ static const struct mtk_soc_data mt2701_
+  		.desc_size = sizeof(struct mtk_rx_dma),
+  		.irq_done_mask = MTK_RX_DONE_INT,
+  		.dma_l4_valid = RX_DMA_L4_VALID,
+@@ -39,7 +39,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5425,7 +5425,7 @@ static const struct mtk_soc_data mt7621_
++@@ -5429,7 +5429,7 @@ static const struct mtk_soc_data mt7621_
+  		.desc_size = sizeof(struct mtk_rx_dma),
+  		.irq_done_mask = MTK_RX_DONE_INT,
+  		.dma_l4_valid = RX_DMA_L4_VALID,
+@@ -48,7 +48,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5455,7 +5455,7 @@ static const struct mtk_soc_data mt7622_
++@@ -5459,7 +5459,7 @@ static const struct mtk_soc_data mt7622_
+  		.desc_size = sizeof(struct mtk_rx_dma),
+  		.irq_done_mask = MTK_RX_DONE_INT,
+  		.dma_l4_valid = RX_DMA_L4_VALID,
+@@ -57,7 +57,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5484,7 +5484,7 @@ static const struct mtk_soc_data mt7623_
++@@ -5488,7 +5488,7 @@ static const struct mtk_soc_data mt7623_
+  		.desc_size = sizeof(struct mtk_rx_dma),
+  		.irq_done_mask = MTK_RX_DONE_INT,
+  		.dma_l4_valid = RX_DMA_L4_VALID,
+@@ -66,7 +66,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5510,7 +5510,7 @@ static const struct mtk_soc_data mt7629_
++@@ -5514,7 +5514,7 @@ static const struct mtk_soc_data mt7629_
+  		.desc_size = sizeof(struct mtk_rx_dma),
+  		.irq_done_mask = MTK_RX_DONE_INT,
+  		.dma_l4_valid = RX_DMA_L4_VALID,
+@@ -75,7 +75,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+  	},
+-@@ -5542,7 +5542,7 @@ static const struct mtk_soc_data mt7981_
++@@ -5546,7 +5546,7 @@ static const struct mtk_soc_data mt7981_
+  		.dma_l4_valid = RX_DMA_L4_VALID_V2,
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -84,7 +84,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  	},
+  };
+  
+-@@ -5572,7 +5572,7 @@ static const struct mtk_soc_data mt7986_
++@@ -5576,7 +5576,7 @@ static const struct mtk_soc_data mt7986_
+  		.dma_l4_valid = RX_DMA_L4_VALID_V2,
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+@@ -93,7 +93,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  	},
+  };
+  
+-@@ -5625,7 +5625,7 @@ static const struct mtk_soc_data rt5350_
++@@ -5629,7 +5629,7 @@ static const struct mtk_soc_data rt5350_
+  		.dma_l4_valid = RX_DMA_L4_VALID_PDMA,
+  		.dma_max_len = MTK_TX_DMA_BUF_LEN,
+  		.dma_len_offset = 16,
+diff --git a/target/linux/generic/pending-6.6/738-02-net-ethernet-mtk_eth_soc-do-not-enable-page-pool-sta.patch b/target/linux/generic/pending-6.6/738-02-net-ethernet-mtk_eth_soc-do-not-enable-page-pool-sta.patch
+index bd141d1032..3ca41b2a03 100644
+--- a/target/linux/generic/pending-6.6/738-02-net-ethernet-mtk_eth_soc-do-not-enable-page-pool-sta.patch
++++ b/target/linux/generic/pending-6.6/738-02-net-ethernet-mtk_eth_soc-do-not-enable-page-pool-sta.patch
+@@ -25,7 +25,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  	help
+ --- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+ +++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+-@@ -4568,6 +4568,7 @@ static int mtk_get_sset_count(struct net
++@@ -4572,6 +4572,7 @@ static int mtk_get_sset_count(struct net
+  
+  static void mtk_ethtool_pp_stats(struct mtk_eth *eth, u64 *data)
+  {
+@@ -33,7 +33,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  	struct page_pool_stats stats = {};
+  	int i;
+  
+-@@ -4580,6 +4581,7 @@ static void mtk_ethtool_pp_stats(struct
++@@ -4584,6 +4585,7 @@ static void mtk_ethtool_pp_stats(struct
+  		page_pool_get_stats(ring->page_pool, &stats);
+  	}
+  	page_pool_ethtool_stats_get(data, &stats);
+diff --git a/target/linux/rockchip/armv8/config-6.6 b/target/linux/rockchip/armv8/config-6.6
+index d2d49160de..b11859fa37 100644
+--- a/target/linux/rockchip/armv8/config-6.6
++++ b/target/linux/rockchip/armv8/config-6.6
+@@ -51,7 +51,6 @@ CONFIG_ARM64_PA_BITS_48=y
+ CONFIG_ARM64_PTR_AUTH=y
+ CONFIG_ARM64_PTR_AUTH_KERNEL=y
+ CONFIG_ARM64_RAS_EXTN=y
+-CONFIG_ARM64_SME=y
+ CONFIG_ARM64_SVE=y
+ CONFIG_ARM64_TAGGED_ADDR_ABI=y
+ CONFIG_ARM64_VA_BITS=48
+@@ -78,6 +77,7 @@ CONFIG_ARM_PSCI_CPUIDLE_DOMAIN=y
+ CONFIG_ARM_PSCI_FW=y
+ # CONFIG_ARM_RK3399_DMC_DEVFREQ is not set
+ CONFIG_ARM_SCMI_CPUFREQ=y
++# CONFIG_ARM_SCMI_DEBUG_COUNTERS is not set
+ CONFIG_ARM_SCMI_HAVE_SHMEM=y
+ CONFIG_ARM_SCMI_HAVE_TRANSPORT=y
+ CONFIG_ARM_SCMI_POWER_CONTROL=y
+@@ -256,7 +256,6 @@ CONFIG_FUNCTION_ALIGNMENT_4B=y
+ CONFIG_FWNODE_MDIO=y
+ CONFIG_FW_LOADER_PAGED_BUF=y
+ CONFIG_FW_LOADER_SYSFS=y
+-CONFIG_GCC_ASM_GOTO_OUTPUT_WORKAROUND=y
+ CONFIG_GCC_SUPPORTS_DYNAMIC_FTRACE_WITH_ARGS=y
+ CONFIG_GENERIC_ALLOCATOR=y
+ CONFIG_GENERIC_ARCH_TOPOLOGY=y
+@@ -552,6 +551,7 @@ CONFIG_RATIONAL=y
+ # CONFIG_RAVE_SP_CORE is not set
+ CONFIG_RCU_TRACE=y
+ CONFIG_REALTEK_PHY=y
++# CONFIG_REALTEK_PHY_HWMON is not set
+ CONFIG_REGMAP=y
+ CONFIG_REGMAP_I2C=y
+ CONFIG_REGMAP_IRQ=y
+-- 
+2.46.0
+
