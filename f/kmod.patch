@@ -1,15 +1,13 @@
-From 5d3339652943600f5465b46e0d079a91680220fe Mon Sep 17 00:00:00 2001
-From: sbwml <admin@cooluc.com>
-Date: Fri, 4 Oct 2024 10:48:29 +0800
-Subject: [PATCH 20/20] rootfs: Add support for local kmod installation sources
+From 0f9d58c0e13f37ba4188a70a188dabe0b316e8da Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Mon, 26 May 2025 16:10:33 -0400
+Subject: [PATCH 20/20] kmod
 
-* CONFIG_TARGET_ROOTFS_LOCAL_PACKAGES=y
-
-Signed-off-by: sbwml <admin@cooluc.com>
+Signed-off-by: Marty Jones <mj8263788@gmail.com>
 ---
  config/Config-images.in | 8 ++++++++
- include/rootfs.mk       | 6 ++++++
- 2 files changed, 14 insertions(+)
+ include/rootfs.mk       | 9 +++++++++
+ 2 files changed, 17 insertions(+)
 
 diff --git a/config/Config-images.in b/config/Config-images.in
 index aa3542f3f2..94b85ec6f5 100644
@@ -29,17 +27,27 @@ index aa3542f3f2..94b85ec6f5 100644
 +
  endmenu
 diff --git a/include/rootfs.mk b/include/rootfs.mk
-index e6cadc531d..4e4c3c0e07 100644
+index e6cadc531d..11edaac481 100644
 --- a/include/rootfs.mk
 +++ b/include/rootfs.mk
-@@ -120,6 +120,12 @@ define prepare_rootfs
+@@ -75,6 +75,7 @@ define prepare_rootfs
+ 	fi)
+ 	@mkdir -p $(1)/etc/rc.d
+ 	@mkdir -p $(1)/var/lock
++	@mkdir -p $(1)/www/repo
+ 	@( \
+ 		cd $(1); \
+ 		if [ -n "$(CONFIG_USE_APK)" ]; then \
+@@ -120,6 +121,14 @@ define prepare_rootfs
  		$(1)/usr/lib/opkg/info/*.postinst* \
  		$(1)/usr/lib/opkg/lists/* \
  		$(1)/var/lock/*.lock
 +	@( \
 +		if [ "$(call qstrip,$(CONFIG_TARGET_ROOTFS_LOCAL_PACKAGES))" = y ]; then \
++			$(MAKE) package/index; \
 +			$(CP) $(TOPDIR)/bin/targets/$(BOARD)/$(SUBTARGET)/packages $(1)/www/repo/packages; \
 +			$(SED) "/openwrt_core/c\src/gz openwrt_core file:///www/repo/packages" $(1)/etc/opkg/distfeeds.conf; \
++			$(SED) "/openwrt_kmods/c\## src/gz openwrt_kmods " $(1)/etc/opkg/distfeeds.conf; \
 +		fi; \
 +	)
  	$(call clean_ipkg,$(1))
