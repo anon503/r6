@@ -38,8 +38,8 @@ index e6cadc531d..4e4c3c0e07 100644
  		$(1)/var/lock/*.lock
 +	@( \
 +		if [ "$(call qstrip,$(CONFIG_TARGET_ROOTFS_LOCAL_PACKAGES))" = y ]; then \
-+			$(CP) $(TOPDIR)/bin/targets/$(BOARD)/$(SUBTARGET)/packages $(1)/usr/share/openwrt_core; \
-+			$(SED) "/openwrt_core/c\src/gz openwrt_core file:///usr/share/openwrt_core" $(1)/etc/opkg/distfeeds.conf; \
++			$(CP) $(TOPDIR)/bin/targets/$(BOARD)/$(SUBTARGET)/packages $(1)/file:///www/repo/packages; \
++			$(SED) "/openwrt_core/c\src/gz openwrt_core file:///www/repo/packages" $(1)/etc/opkg/distfeeds.conf; \
 +		fi; \
 +	)
  	$(call clean_ipkg,$(1))
