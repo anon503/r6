@@ -1,0 +1,52 @@
+From 295245a71917129806f3df6a7e95a898a7c72f8c Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Mon, 26 May 2025 21:11:30 -0400
+Subject: [PATCH] kmod2
+
+---
+ config/Config-images.in |  8 --------
+ include/rootfs.mk       | 11 ++++-------
+ 2 files changed, 4 insertions(+), 15 deletions(-)
+
+diff --git a/config/Config-images.in b/config/Config-images.in
+index 94b85ec6f5..aa3542f3f2 100644
+--- a/config/Config-images.in
++++ b/config/Config-images.in
+@@ -321,12 +321,4 @@ menu "Target Images"
+ 		  across reboots. When enabled, /var/run will still be linked
+ 		  to /tmp/run.
+ 
+-	config TARGET_ROOTFS_LOCAL_PACKAGES
+-		bool "Create a local target package opkg installation source"
+-		select ALL_KMODS
+-		default n
+-		help
+-		  Copy target packages to rootfs and overwrite the original
+-		  openwrt_core installation source with local files.
+-
+ endmenu
+diff --git a/include/rootfs.mk b/include/rootfs.mk
+index 11edaac481..9f6f02418f 100644
+--- a/include/rootfs.mk
++++ b/include/rootfs.mk
+@@ -121,13 +121,10 @@ define prepare_rootfs
+ 		$(1)/usr/lib/opkg/info/*.postinst* \
+ 		$(1)/usr/lib/opkg/lists/* \
+ 		$(1)/var/lock/*.lock
+-	@( \
+-		if [ "$(call qstrip,$(CONFIG_TARGET_ROOTFS_LOCAL_PACKAGES))" = y ]; then \
+-			$(MAKE) package/index; \
+-			$(CP) $(TOPDIR)/bin/targets/$(BOARD)/$(SUBTARGET)/packages $(1)/www/repo/packages; \
+-			$(SED) "/openwrt_core/c\src/gz openwrt_core file:///www/repo/packages" $(1)/etc/opkg/distfeeds.conf; \
+-			$(SED) "/openwrt_kmods/c\## src/gz openwrt_kmods " $(1)/etc/opkg/distfeeds.conf; \
+-		fi; \
++	@(      $(MAKE) package/index; \
++	        $(CP) $(TOPDIR)/bin/targets/$(BOARD)/$(SUBTARGET)/packages $(1)/www/repo/packages; \
++	        $(SED) "/openwrt_core/c\src/gz openwrt_core file:///www/repo/packages" $(1)/etc/opkg/distfeeds.conf; \
++		$(SED) "/openwrt_kmods/c\## src/gz openwrt_kmods " $(1)/etc/opkg/distfeeds.conf; \
+ 	)
+ 	$(call clean_ipkg,$(1))
+ 	$(call mklibs,$(1))
+-- 
+2.46.0
+
