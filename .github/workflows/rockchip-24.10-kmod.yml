@@ -29,6 +29,7 @@ jobs:
                 cp -rf f/6.6.92.patch openwrt/
                 cp -rf f/tmrockchip.patch openwrt/
                 cp -rf f/kmod.patch openwrt/
+                cp -rf f/kmod2.patch openwrt/
                 cd openwrt
                 mkdir -p files/www/repo
                 git checkout openwrt-24.10
@@ -38,6 +39,7 @@ jobs:
                 git apply cpu.patch
                 git apply tmrockchip.patch
                 git apply kmod.patch
+                git apply kmod2.patch
                 rm -rf files
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
