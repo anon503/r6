@@ -26,7 +26,7 @@ jobs:
                 cp -rf f/r-24.10.patch openwrt/
                 cp -rf f/cpu.patch openwrt/
                 cp -rf f/sd.patch openwrt/
-                cp -rf f/6.6.92.patch openwrt/
+                cp -rf f/kernel-update.patch openwrt/
                 cp -rf f/tmrockchip.patch openwrt/
                 cp -rf f/kmod.patch openwrt/
                 cp -rf f/kmod2.patch openwrt/
@@ -35,7 +35,6 @@ jobs:
                 git checkout openwrt-24.10
                 git apply r-24.10.patch
                 git apply sd.patch
-                git apply 6.6.92.patch
                 git apply cpu.patch
                 git apply tmrockchip.patch
                 git apply kmod.patch
