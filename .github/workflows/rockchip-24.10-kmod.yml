@@ -39,6 +39,7 @@ jobs:
                 git apply tmrockchip.patch
                 git apply kmod.patch
                 git apply kmod2.patch
+                git apply kernel-update.patch
                 rm -rf files
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
