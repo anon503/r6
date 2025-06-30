@@ -13,7 +13,7 @@ jobs:
             - name: Setup Go
               uses: actions/setup-go@v5
               with:
-                go-version: '1.23.5'
+                go-version: '1.24.4'
                 cache: false
             - name: Go Version
               run: go version
@@ -24,16 +24,12 @@ jobs:
                 git clone https://github.com/openwrt/openwrt.git
                 cp -rf f/r-24.10.config openwrt/
                 cp -rf f/r-24.10.patch openwrt/
-                cp -rf f/cpu.patch openwrt/
-                cp -rf f/sd.patch openwrt/
-                cp -rf f/6.6.92.patch openwrt/
+                cp -rf f/kmod.patch openwrt/
                 cd openwrt
                 mkdir -p files/www/repo
                 git checkout openwrt-24.10
                 git apply r-24.10.patch
-                git apply sd.patch
-                git apply 6.6.92.patch
-                git apply cpu.patch
+                git apply kmod.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 cd feeds/luci
