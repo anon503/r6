@@ -1,36 +1,17 @@
-From 0f9d58c0e13f37ba4188a70a188dabe0b316e8da Mon Sep 17 00:00:00 2001
-From: Marty Jones <mj8263788@gmail.com>
-Date: Mon, 26 May 2025 16:10:33 -0400
-Subject: [PATCH 20/20] kmod
+From 402151d0e07bbe1ea64f6cc9f13a1098a8cbe804 Mon Sep 17 00:00:00 2001
+From: M Z <md@any.ccc>
+Date: Mon, 30 Jun 2025 18:19:04 -0400
+Subject: [PATCH] kmod
 
-Signed-off-by: Marty Jones <mj8263788@gmail.com>
 ---
- config/Config-images.in | 8 ++++++++
- include/rootfs.mk       | 9 +++++++++
- 2 files changed, 17 insertions(+)
+ include/rootfs.mk | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/config/Config-images.in b/config/Config-images.in
-index aa3542f3f2..94b85ec6f5 100644
---- a/config/Config-images.in
-+++ b/config/Config-images.in
-@@ -321,4 +321,12 @@ menu "Target Images"
- 		  across reboots. When enabled, /var/run will still be linked
- 		  to /tmp/run.
- 
-+	config TARGET_ROOTFS_LOCAL_PACKAGES
-+		bool "Create a local target package opkg installation source"
-+		select ALL_KMODS
-+		default n
-+		help
-+		  Copy target packages to rootfs and overwrite the original
-+		  openwrt_core installation source with local files.
-+
- endmenu
 diff --git a/include/rootfs.mk b/include/rootfs.mk
-index e6cadc531d..11edaac481 100644
+index 26f249d818..f9d56ed3cb 100644
 --- a/include/rootfs.mk
 +++ b/include/rootfs.mk
-@@ -75,6 +75,7 @@ define prepare_rootfs
+@@ -74,6 +74,7 @@ define prepare_rootfs
  	fi)
  	@mkdir -p $(1)/etc/rc.d
  	@mkdir -p $(1)/var/lock
@@ -38,21 +19,18 @@ index e6cadc531d..11edaac481 100644
  	@( \
  		cd $(1); \
  		if [ -n "$(CONFIG_USE_APK)" ]; then \
-@@ -120,6 +121,14 @@ define prepare_rootfs
+@@ -119,6 +120,11 @@ define prepare_rootfs
  		$(1)/usr/lib/opkg/info/*.postinst* \
  		$(1)/usr/lib/opkg/lists/* \
  		$(1)/var/lock/*.lock
-+	@( \
-+		if [ "$(call qstrip,$(CONFIG_TARGET_ROOTFS_LOCAL_PACKAGES))" = y ]; then \
-+			$(MAKE) package/index; \
-+			$(CP) $(TOPDIR)/bin/targets/$(BOARD)/$(SUBTARGET)/packages $(1)/www/repo/packages; \
-+			$(SED) "/openwrt_core/c\src/gz openwrt_core file:///www/repo/packages" $(1)/etc/opkg/distfeeds.conf; \
-+			$(SED) "/openwrt_kmods/c\## src/gz openwrt_kmods " $(1)/etc/opkg/distfeeds.conf; \
-+		fi; \
++	@(      $(MAKE) package/index; \
++	        $(CP) $(TOPDIR)/bin/targets/$(BOARD)/$(SUBTARGET)/packages $(1)/www/repo/packages; \
++	        $(SED) "/openwrt_core/c\src/gz openwrt_core file:///www/repo/packages" $(1)/etc/opkg/distfeeds.conf; \
++		$(SED) "/openwrt_kmods/c\## src/gz openwrt_kmods " $(1)/etc/opkg/distfeeds.conf; \
 +	)
  	$(call clean_ipkg,$(1))
  	$(call mklibs,$(1))
  	$(if $(SOURCE_DATE_EPOCH),find $(1)/ -mindepth 1 -execdir touch -hcd "@$(SOURCE_DATE_EPOCH)" "{}" +)
 -- 
-2.46.0
+2.48.1
 
